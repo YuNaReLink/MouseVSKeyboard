@@ -13,9 +13,10 @@ public class MousePlayer : CharacterController
     }
     private void Update()
     {
+        if (magicShot.Fire) { return; }
         if (gameController.VictoryPlayer == VictoryPlayer.Mouse)
         {
-            transform.position = Vector2.Lerp(transform.position, victryPosition, Time.deltaTime * 10f);
+            magicShot.MagicFire();
         }
         PressKeyCommand();
     }

@@ -17,7 +17,8 @@ public class CharacterController : MonoBehaviour
     protected bool victoryFlag = false;
     public bool IsVictory() { return victoryFlag; }
 
-    // Start is called before the first frame update
+    [SerializeField]
+    protected MagicShot magicShot = null;
     protected virtual void Start()
     {
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
@@ -25,6 +26,8 @@ public class CharacterController : MonoBehaviour
 
         basePosition = transform.position;
         victryPosition = new Vector2(0, basePosition.y);
+
+        magicShot = GetComponentInChildren<MagicShot>();
     }
 
     // Update is called once per frame
