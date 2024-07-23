@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MouseCode
+{
+    Null = -1,
+    Left,
+    Right,
+    Middle,
+    DataEnd
+}
+
 public class InputController
 {
     private static KeyCode key = KeyCode.None;
@@ -26,5 +35,16 @@ public class InputController
                 key = KeyCode.D;
                 break;
         }
+    }
+
+    private MouseCode mouseCode = MouseCode.Null;
+    public MouseCode GetMouseCode() { return mouseCode; }
+
+    public bool RandomMouseKey() { return Input.GetMouseButtonDown((int)mouseCode); }
+
+    public void SetPressMouseKey()
+    {
+        int num = Random.Range(0, 2);
+        mouseCode = (MouseCode)num;
     }
 }

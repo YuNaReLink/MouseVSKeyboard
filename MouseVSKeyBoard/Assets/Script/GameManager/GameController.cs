@@ -38,7 +38,7 @@ public class GameController : MonoBehaviour
     {
         uIController = GameObject.FindGameObjectWithTag("UIController").GetComponent<GameUIController>();
         keyBoardPlayer = GameObject.FindGameObjectWithTag("KeyBoardPlayer").GetComponent<KeyBoardPlayer>();
-        
+        mousePlayer = GameObject.FindGameObjectWithTag("MousePlayer").GetComponent<MousePlayer>();
 
     }
 
