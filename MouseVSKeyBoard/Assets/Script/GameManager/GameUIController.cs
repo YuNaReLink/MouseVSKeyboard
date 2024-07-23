@@ -63,9 +63,6 @@ public class GameUIController : MonoBehaviour
     {
         switch (_key)
         {
-            case KeyCode.W:
-                keyBoardText.text = "W";
-                break;
             case KeyCode.A:
                 keyBoardText.text = "A";
                 break;
@@ -113,8 +110,8 @@ public class GameUIController : MonoBehaviour
     }
 
     public void VictoryCountText() {
-        victoryCountKeyBoardText.text = "WIN" + keyBoardVictoryCount.ToString();
-        victoryCountMouseText.text = "WIN" +  mouseVictoryCount.ToString();
+        victoryCountKeyBoardText.text = "WIN : " + keyBoardVictoryCount.ToString();
+        victoryCountMouseText.text = "WIN : " +  mouseVictoryCount.ToString();
     }
 
     private void SetAllActiveUI(bool _enabled)
