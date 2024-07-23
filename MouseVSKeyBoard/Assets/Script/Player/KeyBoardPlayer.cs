@@ -7,6 +7,7 @@ public class KeyBoardPlayer : MonoBehaviour
     [SerializeField]
     private GameController gameController = null;
     private InputController inputController = null;
+    public InputController GetInputController() {  return inputController; }
 
     [SerializeField]
     private Vector2 basePosition = Vector2.zero;
@@ -14,7 +15,8 @@ public class KeyBoardPlayer : MonoBehaviour
     private Vector2 victryPosition = Vector2.zero;
     [SerializeField]
     private bool victoryFlag = false;
-    // Start is called before the first frame update
+    public bool IsVictory() {  return victoryFlag; }
+
     private void Start()
     {
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
@@ -25,22 +27,26 @@ public class KeyBoardPlayer : MonoBehaviour
         victryPosition = new Vector2(0,basePosition.y);
     }
 
-    // Update is called once per frame
+
     private void Update()
+    {
+        if (gameController.VictoryPlayer == VictoryPlayer.KeyBoard)
+        {
+            transform.position = Vector2.Lerp(transform.position, victryPosition, Time.deltaTime * 10f);
+        }
+        PressKeyCommand();
+
+    }
+
+    private void PressKeyCommand()
     {
         if (GameController.IsRapidPressFlag())
         {
             gameController.GetPreesKey(InputController.GetKeyTag());
             if (inputController.RandomGetKey())
             {
-                victoryFlag = true;
+                gameController.VictoryPlayer = VictoryPlayer.KeyBoard;
             }
-        }
-
-        if (victoryFlag)
-        {
-            transform.position = Vector2.Lerp(transform.position, victryPosition, Time.deltaTime * 10f);
-            
         }
     }
 }

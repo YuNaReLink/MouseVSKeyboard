@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum VictoryPlayer
+{
+    Null = -1,
+    KeyBoard,
+    Mouse,
+    Draw,
+    DataEnd
+}
+
 public class GameController : MonoBehaviour
 {
     [SerializeField]
@@ -17,9 +26,20 @@ public class GameController : MonoBehaviour
 
     public static bool IsRapidPressFlag() {  return rapidPress; }
 
-    void Start()
+    [SerializeField]
+    private KeyBoardPlayer keyBoardPlayer = null;
+    [SerializeField]
+    private MousePlayer mousePlayer = null;
+
+    private VictoryPlayer victoryPlayer = VictoryPlayer.Null;
+    public VictoryPlayer VictoryPlayer { get { return victoryPlayer; } set { victoryPlayer = value; } }
+
+    private void Start()
     {
-        //uIController = GameObject.FindGameObjectWithTag("UI").GetComponent<GameUIController>();
+        uIController = GameObject.FindGameObjectWithTag("UIController").GetComponent<GameUIController>();
+        keyBoardPlayer = GameObject.FindGameObjectWithTag("KeyBoardPlayer").GetComponent<KeyBoardPlayer>();
+        
+
     }
 
     void Update()
@@ -28,6 +48,9 @@ public class GameController : MonoBehaviour
         {
             SetRandomNumber();
         }
+
+        ResultText();
+
     }
 
     private void SetRandomNumber()
@@ -38,6 +61,28 @@ public class GameController : MonoBehaviour
             uIController.GetStartUI().SetActive(true);
             rapidPress = true;
         }
+    }
+
+    private void ResultText()
+    {
+        if(keyBoardPlayer.GetInputController().RandomGetKey()&&Input.GetMouseButtonDown(0))
+        {
+            victoryPlayer = VictoryPlayer.Draw;
+        }
+
+        switch (victoryPlayer)
+        {
+            case VictoryPlayer.KeyBoard:
+                uIController.ResultUI(victoryPlayer);
+                break;
+            case VictoryPlayer.Mouse:
+                uIController.ResultUI(victoryPlayer);
+                break;
+            case VictoryPlayer.Draw:
+                uIController.ResultUI(victoryPlayer);
+                break;
+        }
+        
     }
 
     public void GetPreesKey(KeyCode _key)
