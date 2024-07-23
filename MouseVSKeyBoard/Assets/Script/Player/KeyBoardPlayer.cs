@@ -13,7 +13,7 @@ public class KeyBoardPlayer : MonoBehaviour
     [SerializeField]
     private Vector2 victryPosition = Vector2.zero;
     [SerializeField]
-    private bool moveFlag = false;
+    private bool victoryFlag = false;
     // Start is called before the first frame update
     private void Start()
     {
@@ -33,11 +33,11 @@ public class KeyBoardPlayer : MonoBehaviour
             gameController.GetPreesKey(InputController.GetKeyTag());
             if (inputController.RandomGetKey())
             {
-                moveFlag = true;
+                victoryFlag = true;
             }
         }
 
-        if (moveFlag)
+        if (victoryFlag)
         {
             transform.position = Vector2.Lerp(transform.position, victryPosition, Time.deltaTime * 10f);
             
