@@ -40,14 +40,26 @@ public class GameController : MonoBehaviour
         keyBoardPlayer = GameObject.FindGameObjectWithTag("KeyBoardPlayer").GetComponent<KeyBoardPlayer>();
         mousePlayer = GameObject.FindGameObjectWithTag("MousePlayer").GetComponent<MousePlayer>();
 
+
+        int modeValue = Random.Range(0, (int)GameManager.GameMode.DataEnd);
+        GameManager.GameModeTag = (GameManager.GameMode)modeValue;
     }
 
     void Update()
     {
-        if (!rapidPress)
+        switch (GameManager.GameModeTag)
         {
-            SetRandomNumber();
+            case GameManager.GameMode.RapidPress:
+
+                break;
+            case GameManager.GameMode.BurstPush:
+
+                break;
         }
+                if (!rapidPress)
+                {
+                    SetRandomNumber();
+                }
 
         ResultText();
 

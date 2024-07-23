@@ -13,9 +13,10 @@ public class KeyBoardPlayer : CharacterController
 
     private void Update()
     {
+        if (magicShot.Fire) { return; }
         if (gameController.VictoryPlayer == VictoryPlayer.KeyBoard)
         {
-            transform.position = Vector2.Lerp(transform.position, victryPosition, Time.deltaTime * 10f);
+            magicShot.MagicFire();
         }
         PressKeyCommand();
 
