@@ -34,8 +34,8 @@ public class InputController
         }
     }
 
-    private MouseCode mouseCode = MouseCode.Null;
-    public MouseCode GetMouseCode() { return mouseCode; }
+    private static MouseCode mouseCode = MouseCode.Null;
+    public static MouseCode GetMouseCode() { return mouseCode; }
 
     public bool RandomMouseKey() { return Input.GetMouseButtonDown((int)mouseCode); }
 

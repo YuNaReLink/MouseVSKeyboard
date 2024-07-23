@@ -18,20 +18,43 @@ public class KeyBoardPlayer : CharacterController
         {
             magicShot.MagicFire();
         }
-        PressKeyCommand();
+        ModeCommand();
 
+    }
+    private void ModeCommand()
+    {
+        if (!GameController.IsRapidPressFlag()) { return; }
+        if (gameController.VictoryPlayer != VictoryPlayer.Null) { return; }
+        switch (GameManager.GameModeTag)
+        {
+            case GameManager.GameMode.RapidPress:
+                PressKeyCommand();
+                break;
+            case GameManager.GameMode.BurstPush:
+                ClickKeyCommand();
+                break;
+        }
+    }
+    private void ClickKeyCommand()
+    {
+        gameController.SetViewPushKey(KeyCode.A);
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            gameController.KeyCount++;
+        }
+
+        if (gameController.KeyCount >= gameController.GetMaxCount())
+        {
+            gameController.VictoryPlayer = VictoryPlayer.KeyBoard;
+        }
     }
 
     private void PressKeyCommand()
     {
-        if (GameController.IsRapidPressFlag())
+        gameController.SetViewPushKey(InputController.GetKeyTag());
+        if (inputController.RandomGetKey())
         {
-            if(gameController.VictoryPlayer != VictoryPlayer.Null) { return; }
-            gameController.GetPreesKey(InputController.GetKeyTag());
-            if (inputController.RandomGetKey())
-            {
-                gameController.VictoryPlayer = VictoryPlayer.KeyBoard;
-            }
+            gameController.VictoryPlayer = VictoryPlayer.KeyBoard;
         }
     }
 }

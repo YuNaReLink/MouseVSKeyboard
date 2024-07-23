@@ -21,7 +21,13 @@ public class GameUIController : MonoBehaviour
     public GameObject GetStartUI() {  return StartUI; }
 
     [SerializeField]
+    private Text startText = null;
+
+    [SerializeField]
     private Text keyBoardText = null;
+
+    [SerializeField]
+    private Text mouseText = null;
 
     [SerializeField]
     private Text resultText = null;
@@ -37,21 +43,23 @@ public class GameUIController : MonoBehaviour
     public int mouseVictoryCount = 0;
 
     private bool ofLoop = false;
- 
-    // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
         int count = transform.childCount;
-        for(int i = 0;  i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             uiArray.Add(transform.GetChild(i).gameObject);
         }
 
 
-        if(uiArray[(int)UITag.Start] != null)
+        if (uiArray[(int)UITag.Start] != null)
         {
             uiArray[(int)UITag.Start].SetActive(false);
         }
+    }
+    void Start()
+    {
     }
 
     void Update()
@@ -71,6 +79,22 @@ public class GameUIController : MonoBehaviour
                 break;
             case KeyCode.D:
                 keyBoardText.text = "D";
+                break;
+        }
+    }
+
+    public void SetMouseButtonText(MouseCode code)
+    {
+        switch (code)
+        {
+            case MouseCode.Left:
+                mouseText.text = "左クリック！";
+                break;
+            case MouseCode.Right:
+                mouseText.text = "右クリック！";
+                break;
+            case MouseCode.Middle:
+                mouseText.text = "ホイールクリック！";
                 break;
         }
     }
@@ -107,6 +131,7 @@ public class GameUIController : MonoBehaviour
         resultText.text = result;
         uiArray[(int)UITag.Start].SetActive(false);
         uiArray[(int)UITag.PressKey].SetActive(false);
+        uiArray[(int)UITag.PressMouseKey].SetActive(false);
     }
 
     public void VictoryCountText() {
@@ -120,5 +145,10 @@ public class GameUIController : MonoBehaviour
         {
             uiArray[i].SetActive(_enabled);
         }
+    }
+
+    public void SetStartText(string _text)
+    {
+        startText.text = _text;
     }
 }
