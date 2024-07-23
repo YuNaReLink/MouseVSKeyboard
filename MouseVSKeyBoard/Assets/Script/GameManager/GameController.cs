@@ -51,6 +51,7 @@ public class GameController : MonoBehaviour
 
         ResultText();
 
+        uIController.VictoryCountText();
     }
 
     private void SetRandomNumber()

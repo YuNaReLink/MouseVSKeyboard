@@ -25,6 +25,19 @@ public class GameUIController : MonoBehaviour
 
     [SerializeField]
     private Text resultText = null;
+
+    [SerializeField]
+    private Text victoryCountMouseText = null;
+
+    [SerializeField]
+    private Text victoryCountKeyBoardText = null;
+
+    public int keyBoardVictoryCount = 0;
+
+    public int mouseVictoryCount = 0;
+
+    private bool ofLoop = false;
+ 
     // Start is called before the first frame update
     void Start()
     {
@@ -43,7 +56,7 @@ public class GameUIController : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     public void SetKeyBoardText(KeyCode _key)
@@ -67,7 +80,9 @@ public class GameUIController : MonoBehaviour
 
     public void ResultUI(VictoryPlayer _player)
     {
+        
         string result = "";
+        
         switch (_player)
         {
             case VictoryPlayer.KeyBoard:
@@ -80,9 +95,26 @@ public class GameUIController : MonoBehaviour
                 result = "引き分け！";
                 break;
         }
+        if (!ofLoop)
+        {
+            if(result == "キーボードの勝利!")
+            {
+                keyBoardVictoryCount++;
+            }
+            else if(result == "マウスの勝利!")
+            {
+                mouseVictoryCount++;
+            }
+            ofLoop = true;
+        }
         resultText.text = result;
         uiArray[(int)UITag.Start].SetActive(false);
         uiArray[(int)UITag.PressKey].SetActive(false);
+    }
+
+    public void VictoryCountText() {
+        victoryCountKeyBoardText.text = "WIN" + keyBoardVictoryCount.ToString();
+        victoryCountMouseText.text = "WIN" +  mouseVictoryCount.ToString();
     }
 
     private void SetAllActiveUI(bool _enabled)
