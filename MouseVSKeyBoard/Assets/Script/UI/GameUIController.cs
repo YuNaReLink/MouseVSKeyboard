@@ -57,13 +57,13 @@ public class GameUIController : MonoBehaviour
     private Text winResultUIText = null;
 
     [SerializeField]
-    private Text victoryCountMouseText = null;
+    private WinScore mouseScore = null;
 
     [SerializeField]
-    private Text victoryCountKeyBoardText = null;
+    private WinScore keyBoardScore = null;
 
     [SerializeField]
-    private RectTransform PoasePanelTransform = null;
+    private RectTransform poasePanelTransform = null;
 
     [SerializeField]
     private GameButtonController gameButtonController = null;
@@ -92,12 +92,12 @@ public class GameUIController : MonoBehaviour
 
     public void MovePoasePanel(Vector2 movePos)
     {
-        PoasePanelTransform.anchoredPosition = Vector2.Lerp(PoasePanelTransform.anchoredPosition, movePos, Time.deltaTime * 5f);
-        Vector2 sub = PoasePanelTransform.anchoredPosition - movePos;
+        poasePanelTransform.anchoredPosition = Vector2.Lerp(poasePanelTransform.anchoredPosition, movePos, Time.deltaTime * 5f);
+        Vector2 sub = poasePanelTransform.anchoredPosition - movePos;
         float dis = sub.magnitude;
         if (dis <= 0.1)
         {
-            PoasePanelTransform.anchoredPosition = movePos;
+            poasePanelTransform.anchoredPosition = movePos;
             
         }
     }
@@ -186,9 +186,18 @@ public class GameUIController : MonoBehaviour
         mouseButtonImage.sprite = mouseSprite2DImage[0];
     }
 
-    public void VictoryCountText(int _keyNum,int _mouseNum) {
-        victoryCountKeyBoardText.text = "WIN : " + _keyNum.ToString();
-        victoryCountMouseText.text = "WIN : " +  _mouseNum.ToString();
+    public void VictoryCountText(VictoryPlayer _player,int _keyNum,int _mouseNum) {
+        switch (_player)
+        {
+            case VictoryPlayer.KeyBoard:
+                keyBoardScore.ViewWinScore(_player);
+                break;
+            case VictoryPlayer.Mouse:
+                mouseScore.ViewWinScore(_player);
+                break;
+            case VictoryPlayer.Draw:
+                break;
+        }
     }
 
     private void SetAllActiveUI(bool _enabled)

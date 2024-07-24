@@ -192,7 +192,7 @@ public class GameController : MonoBehaviour
                 uIController.ResultUI(victoryPlayer);
                 break;
         }
-        uIController.VictoryCountText(keyBoardVictoryCount,mouseVictoryCount);
+        uIController.VictoryCountText(victoryPlayer,keyBoardVictoryCount, mouseVictoryCount);
         gameEventTimer.GetTimerResetGameIdle().StartTimer(5f);
         gameEventTimer.GetTimerResetGameIdle().OnCompleted += () =>
         {

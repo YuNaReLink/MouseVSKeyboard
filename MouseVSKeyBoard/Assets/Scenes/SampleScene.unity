@@ -188,6 +188,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f521fbf32ce670341bdb69f5cdb59ec8, type: 3}
+--- !u!114 &49917332 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2275088966996195101, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+  m_PrefabInstance: {fileID: 1715070386}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ad18122e19a1c441b2ac1ed9d8f1d58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &75518317
 GameObject:
   m_ObjectHideFlags: 0
@@ -1053,6 +1064,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1330354306 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4391145785241749200, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+  m_PrefabInstance: {fileID: 1715070386}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f93fdace0e909449baa6be3887c5c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1454397877
 GameObject:
   m_ObjectHideFlags: 0
@@ -1275,13 +1297,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1795254942121287449, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4884749461122978499, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
       propertyPath: m_Name
       value: GameCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 5966378543145344861, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5966378543145344861, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5966378543145344861, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 49917332}
+    - target: {fileID: 5966378543145344861, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5966378543145344861, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ChangeScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 5966378543145344861, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameButtonController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5966378543145344861, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: 0_TitleScene2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5966378543145344861, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8007748886874340911, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
       propertyPath: m_Pivot.x
@@ -1364,7 +1414,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9110943071774393888, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
-      propertyPath: PoasePanelTransform
+      propertyPath: mouseScore
+      value: 
+      objectReference: {fileID: 2107734043}
+    - target: {fileID: 9110943071774393888, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: keyBoardScore
+      value: 
+      objectReference: {fileID: 1330354306}
+    - target: {fileID: 9110943071774393888, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: poasePanelTransform
       value: 
       objectReference: {fileID: 2139370976}
     - target: {fileID: 9110943071774393888, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
@@ -1464,6 +1522,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2107734043 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9015477438334128840, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+  m_PrefabInstance: {fileID: 1715070386}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f93fdace0e909449baa6be3887c5c72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2139370976 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 267684988488113283, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
