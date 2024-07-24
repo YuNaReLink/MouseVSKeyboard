@@ -20,11 +20,11 @@ public class StartButton : MonoBehaviour
 
     private float goSceneTime = 0; 
 
-    bool goSceneFlg = false;
+    private bool goSceneFlg = false;
 
     private NextScene nextScene = null;
 
-    bool active = true;
+    private bool active = true;
 
     private void Awake()
     {
