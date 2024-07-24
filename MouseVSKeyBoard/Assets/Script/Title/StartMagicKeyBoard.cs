@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StartMagicKeyBoard : TitleController
 {
+    private int MagicCount = 0;
     protected override void Awake()
     {
         base.Awake();
@@ -20,7 +21,11 @@ public class StartMagicKeyBoard : TitleController
         }
         else if (Input.anyKeyDown)
         {
-            magicShot.MagicFire(0);
+            if(MagicCount <= 0)
+            {
+                magicShot.MagicFire(0);
+                MagicCount++;
+            }
         }
     }
 }
