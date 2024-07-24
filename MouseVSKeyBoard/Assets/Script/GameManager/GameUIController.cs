@@ -23,14 +23,18 @@ public class GameUIController : MonoBehaviour
     private Text explanationText = null;
 
     [SerializeField]
-    private Text mouseText = null;
+    private GameObject mouseButtonUIObject = null;
+    [SerializeField]
+    private Image mouseButtonImage = null;
+    [SerializeField]
+    private List<Sprite> mouseSprite2DImage = new List<Sprite>();
 
     [SerializeField]
     private GameObject keyButtonUIObject = null;
     [SerializeField]
     private Image keyButtonImage = null;
     [SerializeField]
-    private List<Sprite> sprite2DImage = new List<Sprite>();
+    private List<Sprite> keySprite2DImage = new List<Sprite>();
 
     [SerializeField]
     private Text resultText = null;
@@ -70,13 +74,13 @@ public class GameUIController : MonoBehaviour
         switch (_key)
         {
             case KeyCode.A:
-                keyButtonImage.sprite = sprite2DImage[0];
+                keyButtonImage.sprite = keySprite2DImage[1];
                 break;
             case KeyCode.S:
-                keyButtonImage.sprite = sprite2DImage[1];
+                keyButtonImage.sprite = keySprite2DImage[2];
                 break;
             case KeyCode.D:
-                keyButtonImage.sprite = sprite2DImage[2];
+                keyButtonImage.sprite = keySprite2DImage[3];
                 break;
         }
         keyButtonImage.enabled = true;
@@ -87,13 +91,13 @@ public class GameUIController : MonoBehaviour
         switch (code)
         {
             case MouseCode.Left:
-                mouseText.text = "左クリック！";
+                mouseButtonImage.sprite = mouseSprite2DImage[1];
                 break;
             case MouseCode.Right:
-                mouseText.text = "右クリック！";
+                mouseButtonImage.sprite = mouseSprite2DImage[2];
                 break;
             case MouseCode.Middle:
-                mouseText.text = "ホイールクリック！";
+                mouseButtonImage.sprite = mouseSprite2DImage[3];
                 break;
         }
     }
@@ -117,8 +121,8 @@ public class GameUIController : MonoBehaviour
         }
         resultText.text = result;
         uiArray[(int)UITag.Start].SetActive(false);
-        keyButtonImage.enabled = false;
-        mouseText.text = "";
+        keyButtonImage.sprite = keySprite2DImage[0];
+        mouseButtonImage.sprite = mouseSprite2DImage[0];
     }
 
     public void VictoryCountText(int _keyNum,int _mouseNum) {
