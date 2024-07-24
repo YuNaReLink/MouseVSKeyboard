@@ -24,6 +24,15 @@ public class GameUIController : MonoBehaviour
     private Text keyBoardText = null;
 
     [SerializeField]
+    private GameObject keyA;
+    
+    [SerializeField]
+    private GameObject keyS;
+
+    [SerializeField]
+    private GameObject keyD;
+
+    [SerializeField]
     private Text resultText = null;
 
     [SerializeField]
@@ -64,12 +73,15 @@ public class GameUIController : MonoBehaviour
         switch (_key)
         {
             case KeyCode.A:
+                keyA.SetActive(true);
                 keyBoardText.text = "A";
                 break;
             case KeyCode.S:
+                keyS.SetActive(true);
                 keyBoardText.text = "S";
                 break;
             case KeyCode.D:
+                keyD.SetActive(true);
                 keyBoardText.text = "D";
                 break;
         }
@@ -84,6 +96,7 @@ public class GameUIController : MonoBehaviour
         {
             case VictoryPlayer.KeyBoard:
                 result = "キーボードの勝利!";
+                SetActiveOff();
                 break;
             case VictoryPlayer.Mouse:
                 result = "マウスの勝利!";
@@ -112,6 +125,13 @@ public class GameUIController : MonoBehaviour
     public void VictoryCountText() {
         victoryCountKeyBoardText.text = "WIN : " + keyBoardVictoryCount.ToString();
         victoryCountMouseText.text = "WIN : " +  mouseVictoryCount.ToString();
+    }
+
+    private void SetActiveOff()
+    {
+        keyA.SetActive(false);
+        keyS.SetActive(false);
+        keyD.SetActive(false);
     }
 
     private void SetAllActiveUI(bool _enabled)
