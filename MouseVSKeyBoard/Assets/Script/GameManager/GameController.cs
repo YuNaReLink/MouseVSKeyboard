@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour
     public int GetMouseVictoryCount() { return mouseVictoryCount; }
     private GameEventTimer gameEventTimer = null;
 
-    
+    private bool poaseFlag = true;
     private void Start()
     {
         Initialize();
@@ -65,6 +65,7 @@ public class GameController : MonoBehaviour
 
     private void InitializeGameSetting()
     {
+        GameManager.GameStateTag = GameManager.GameState.Game;
         int modeValue = Random.Range(0, (int)GameManager.GameMode.DataEnd);
         GameManager.GameModeTag = (GameManager.GameMode)modeValue;
 
@@ -95,8 +96,13 @@ public class GameController : MonoBehaviour
 
     void Update()
     {
-        gameEventTimer.TimerUpdate();
+        if (InputController.AllPushKey() || InputController.AllPushMouseKey())
+        {
+            poaseFlag = false;
+        }
+        if (poaseFlag) { return; }
         MoveUI();
+        gameEventTimer.TimerUpdate();
         
 
         if (gameEventTimer.GetTimerGameStartWait().IsEnabled()) { return; }
@@ -121,6 +127,7 @@ public class GameController : MonoBehaviour
 
     private void MoveUI()
     {
+        uIController.MovePoasePanel(new Vector2(0,1080));
         uIController.MoveExplanationUI(uIController.MoveUIPos);
         if(GameManager.GameStateTag == GameManager.GameState.Result)
         {

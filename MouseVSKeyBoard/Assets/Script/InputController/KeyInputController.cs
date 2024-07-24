@@ -34,6 +34,8 @@ public class InputController
         }
     }
 
+    public static bool AllPushKey() { return Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D); }
+
     private static MouseCode mouseCode = MouseCode.Null;
     public static MouseCode GetMouseCode() { return mouseCode; }
 
@@ -44,4 +46,6 @@ public class InputController
         int num = Random.Range(0, 2);
         mouseCode = (MouseCode)num;
     }
+
+    public static bool AllPushMouseKey() { return Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2); }
 }

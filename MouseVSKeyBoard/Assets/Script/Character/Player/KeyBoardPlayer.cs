@@ -20,6 +20,10 @@ public class KeyBoardPlayer : CharacterController
 
     private void Update()
     {
+        //ñÇñ@êwÇÃèàóù
+        MagicCircleMakeItBigger();
+
+        //ñÇñ@Çî≠éÀÇ∑ÇÈèàóù
         if (magicShot.Fire) { return; }
         if (gameController.VictoryPlayer == VictoryPlayer.KeyBoard)
         {
@@ -29,6 +33,23 @@ public class KeyBoardPlayer : CharacterController
         ModeCommand();
 
     }
+
+    private void MagicCircleMakeItBigger()
+    {
+        Vector3 scale = magicCircle.localScale;
+        /*
+         */
+        float rangeDifference = 0.5f - 0;
+        float add = rangeDifference / (gameController.GetMaxCount() - 1);
+        scale.x = 0 + (gameController.KeyCount * add);
+        rangeDifference = 1f - 0;
+        add = rangeDifference / (gameController.GetMaxCount() - 1);
+        scale.y = 0 + (gameController.KeyCount * add);
+        scale.z = 0 + (gameController.KeyCount * add);
+        //scale = Vector3.Lerp(scale, new Vector3(0.05f, 0.1f, 0.1f), 1);
+        magicCircle.localScale = scale;
+    }
+
     private void ModeCommand()
     {
         if (!GameController.IsRapidPressFlag()) { return; }

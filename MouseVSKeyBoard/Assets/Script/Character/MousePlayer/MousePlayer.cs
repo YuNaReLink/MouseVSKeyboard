@@ -17,6 +17,9 @@ public class MousePlayer : CharacterController
     }
     private void Update()
     {
+        //ñÇñ@êwÇÃèàóù
+        MagicCircleMakeItBigger();
+
         if (magicShot.Fire) { return; }
         if (gameController.VictoryPlayer == VictoryPlayer.Mouse)
         {
@@ -24,6 +27,19 @@ public class MousePlayer : CharacterController
             magicShot.MagicFire(180);
         }
         ModeCommand();
+    }
+
+    private void MagicCircleMakeItBigger()
+    {
+        Vector3 scale = magicCircle.localScale;
+        float rangeDifference = 0.5f - 0;
+        float add = rangeDifference / (gameController.GetMaxCount() - 1);
+        scale.x = 0 + (gameController.ClickCount * add);
+        rangeDifference = 1f - 0;
+        add = rangeDifference / (gameController.GetMaxCount() - 1);
+        scale.y = 0 + (gameController.ClickCount * add);
+        scale.z = 0 + (gameController.ClickCount * add);
+        magicCircle.localScale = scale;
     }
 
     private void ModeCommand()

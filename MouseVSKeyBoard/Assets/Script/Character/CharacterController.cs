@@ -24,6 +24,9 @@ public class CharacterController : MonoBehaviour
     public MagicShot GetMagicShot() { return magicShot; }
 
     [SerializeField]
+    protected Transform magicCircle = null;
+
+    [SerializeField]
     protected SpriteRenderer spriteRenderer = null;
     public SpriteRenderer GetSpriteRenderer() { return spriteRenderer; }
     [SerializeField]
@@ -51,9 +54,10 @@ public class CharacterController : MonoBehaviour
     {
         magicShot.Fire = false;
         spriteRenderer.sprite = sprites[0];
-        rigidbody2D.velocity = Vector2.zero;
         transform.position = basePosition;
         transform.rotation = Quaternion.Euler(baseRotate);
+        rigidbody2D.velocity = Vector2.zero;
+        magicCircle.transform.localScale = Vector3.zero;
     }
 
     private void OnTriggerEnter(Collider other)
