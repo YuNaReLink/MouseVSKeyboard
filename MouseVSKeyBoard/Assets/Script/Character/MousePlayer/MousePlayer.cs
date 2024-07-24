@@ -6,6 +6,10 @@ using UnityEngine;
 
 public class MousePlayer : CharacterController
 {
+    protected override void Awake()
+    {
+        base.Awake();
+    }
     protected override void Start()
     {
         base.Start();
@@ -18,18 +22,44 @@ public class MousePlayer : CharacterController
         {
             magicShot.MagicFire();
         }
-        PressKeyCommand();
+        ModeCommand();
+    }
+
+    private void ModeCommand()
+    {
+        if (!GameController.IsRapidPressFlag()) { return; }
+        if (gameController.VictoryPlayer != VictoryPlayer.Null) { return; }
+        switch (GameManager.GameModeTag)
+        {
+            case GameManager.GameMode.RapidPress:
+                PressKeyCommand();
+                break;
+            case GameManager.GameMode.BurstPush:
+                ClickMouseCommand();
+                break;
+        }
+    }
+
+    private void ClickMouseCommand()
+    {
+        gameController.SetViewPushMouseButton(MouseCode.Left);
+        if (Input.GetMouseButtonDown(0))
+        {
+            gameController.ClickCount++;
+        }
+
+        if(gameController.ClickCount >= gameController.GetMaxCount())
+        {
+            gameController.VictoryPlayer = VictoryPlayer.Mouse;
+        }
     }
 
     private void PressKeyCommand()
     {
-        if (GameController.IsRapidPressFlag())
+        gameController.SetViewPushMouseButton(InputController.GetMouseCode());
+        if (inputController.RandomMouseKey())
         {
-            if (gameController.VictoryPlayer != VictoryPlayer.Null) { return; }
-            if (inputController.RandomMouseKey())
-            {
-                gameController.VictoryPlayer = VictoryPlayer.Mouse;
-            }
+            gameController.VictoryPlayer = VictoryPlayer.Mouse;
         }
     }
 

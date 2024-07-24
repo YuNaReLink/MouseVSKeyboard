@@ -19,6 +19,11 @@ public class CharacterController : MonoBehaviour
 
     [SerializeField]
     protected MagicShot magicShot = null;
+    public MagicShot GetMagicShot() { return magicShot; }
+    protected virtual void Awake()
+    {
+        magicShot = GetComponentInChildren<MagicShot>();
+    }
     protected virtual void Start()
     {
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
@@ -26,8 +31,6 @@ public class CharacterController : MonoBehaviour
 
         basePosition = transform.position;
         victryPosition = new Vector2(0, basePosition.y);
-
-        magicShot = GetComponentInChildren<MagicShot>();
     }
 
     // Update is called once per frame

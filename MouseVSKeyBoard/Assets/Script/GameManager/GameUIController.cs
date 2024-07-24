@@ -21,6 +21,9 @@ public class GameUIController : MonoBehaviour
     public GameObject GetStartUI() {  return StartUI; }
 
     [SerializeField]
+    private Text startText = null;
+
+    [SerializeField]
     private Text keyBoardText = null;
 
     [SerializeField]
@@ -46,26 +49,27 @@ public class GameUIController : MonoBehaviour
     public int mouseVictoryCount = 0;
 
     private bool ofLoop = false;
- 
-    // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
         int count = transform.childCount;
-        for(int i = 0;  i < count; i++)
+        for (int i = 0; i < count; i++)
         {
             uiArray.Add(transform.GetChild(i).gameObject);
         }
 
 
-        if(uiArray[(int)UITag.Start] != null)
+        InitilaizeGameUISetting();
+    }
+    
+    public void InitilaizeGameUISetting()
+    {
+        if (uiArray[(int)UITag.Start] != null)
         {
             uiArray[(int)UITag.Start].SetActive(false);
         }
-    }
-
-    void Update()
-    {
-
+        
+        resultText.text = "";
     }
 
     public void SetKeyBoardText(KeyCode _key)
@@ -87,6 +91,22 @@ public class GameUIController : MonoBehaviour
         }
     }
 
+    public void SetMouseButtonText(MouseCode code)
+    {
+        switch (code)
+        {
+            case MouseCode.Left:
+                mouseText.text = "å·¦ã‚¯ãƒªãƒƒã‚¯ï¼";
+                break;
+            case MouseCode.Right:
+                mouseText.text = "å³ã‚¯ãƒªãƒƒã‚¯ï¼";
+                break;
+            case MouseCode.Middle:
+                mouseText.text = "ãƒ›ã‚¤ãƒ¼ãƒ«ã‚¯ãƒªãƒƒã‚¯ï¼";
+                break;
+        }
+    }
+
     public void ResultUI(VictoryPlayer _player)
     {
         
@@ -95,23 +115,23 @@ public class GameUIController : MonoBehaviour
         switch (_player)
         {
             case VictoryPlayer.KeyBoard:
-                result = "ƒL[ƒ{[ƒh‚ÌŸ—˜!";
+                result = "ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®å‹åˆ©!";
                 SetActiveOff();
                 break;
             case VictoryPlayer.Mouse:
-                result = "ƒ}ƒEƒX‚ÌŸ—˜!";
+                result = "ãƒžã‚¦ã‚¹ã®å‹åˆ©!";
                 break;
             case VictoryPlayer.Draw:
-                result = "ˆø‚«•ª‚¯I";
+                result = "å¼•ãåˆ†ã‘ï¼";
                 break;
         }
         if (!ofLoop)
         {
-            if(result == "ƒL[ƒ{[ƒh‚ÌŸ—˜!")
+            if(result == "ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®å‹åˆ©!")
             {
                 keyBoardVictoryCount++;
             }
-            else if(result == "ƒ}ƒEƒX‚ÌŸ—˜!")
+            else if(result == "ãƒžã‚¦ã‚¹ã®å‹åˆ©!")
             {
                 mouseVictoryCount++;
             }
@@ -119,7 +139,8 @@ public class GameUIController : MonoBehaviour
         }
         resultText.text = result;
         uiArray[(int)UITag.Start].SetActive(false);
-        uiArray[(int)UITag.PressKey].SetActive(false);
+        keyBoardText.text = "";
+        mouseText.text = "";
     }
 
     public void VictoryCountText() {
@@ -140,5 +161,10 @@ public class GameUIController : MonoBehaviour
         {
             uiArray[i].SetActive(_enabled);
         }
+    }
+
+    public void SetStartText(string _text)
+    {
+        startText.text = _text;
     }
 }

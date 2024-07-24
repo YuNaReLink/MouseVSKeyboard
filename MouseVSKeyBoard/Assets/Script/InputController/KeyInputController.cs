@@ -19,26 +19,23 @@ public class InputController
 
     public void SetPressKey()
     {
-        int num = Random.Range(0, 3);
+        int num = Random.Range(0, 2);
         switch (num)
         {
             case 0:
-                key = KeyCode.W;
-                break;
-            case 1:
                 key = KeyCode.A;
                 break;
-            case 2:
+            case 1:
                 key = KeyCode.S;
                 break;
-            case 3:
+            case 2:
                 key = KeyCode.D;
                 break;
         }
     }
 
-    private MouseCode mouseCode = MouseCode.Null;
-    public MouseCode GetMouseCode() { return mouseCode; }
+    private static MouseCode mouseCode = MouseCode.Null;
+    public static MouseCode GetMouseCode() { return mouseCode; }
 
     public bool RandomMouseKey() { return Input.GetMouseButtonDown((int)mouseCode); }
 
