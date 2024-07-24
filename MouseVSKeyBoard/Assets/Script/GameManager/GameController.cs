@@ -23,9 +23,7 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private static bool rapidPress = false;
-
     public static bool IsRapidPressFlag() {  return rapidPress; }
-
     [SerializeField]
     private int maxCount = 10;
     public int GetMaxCount() {  return maxCount; }
@@ -35,22 +33,19 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private int clickCount = 0;
     public int ClickCount { get {return clickCount; } set { clickCount = value; } }
-
     [SerializeField]
     private KeyBoardPlayer keyBoardPlayer = null;
     [SerializeField]
     private MousePlayer mousePlayer = null;
-
     private VictoryPlayer victoryPlayer = VictoryPlayer.Null;
     public VictoryPlayer VictoryPlayer { get { return victoryPlayer; } set { victoryPlayer = value; } }
-
     private int keyBoardVictoryCount = 0;
     public int GetKeyBoardVictoryCount() { return keyBoardVictoryCount; }
-
     private int mouseVictoryCount = 0;
     public int GetMouseVictoryCount() { return mouseVictoryCount; }
-
     private GameEventTimer gameEventTimer = null;
+
+    
     private void Start()
     {
         Initialize();
@@ -96,6 +91,9 @@ public class GameController : MonoBehaviour
     void Update()
     {
         gameEventTimer.TimerUpdate();
+        MoveUI();
+        
+
         if (gameEventTimer.GetTimerGameStartWait().IsEnabled()) { return; }
         if(GameManager.GameStateTag == GameManager.GameState.Result) { return; }
 
@@ -108,7 +106,6 @@ public class GameController : MonoBehaviour
                 }
                 break;
             case GameManager.GameMode.BurstPush:
-                uIController.GetExplanationUI().SetActive(true);
                 rapidPress = true;
                 break;
         }
@@ -117,13 +114,16 @@ public class GameController : MonoBehaviour
         
     }
 
+    private void MoveUI()
+    {
+        uIController.MoveExplanationUI(uIController.MoveUIPos);
+    }
+
     private void SetRandomNumber()
     {
         measurementNumber = Random.Range(0, 100);
         if(measurementNumber < baseMeasurementValue)
         {
-            uIController.GetExplanationUI().SetActive(true);
-            uIController.SetStartText("‰Ÿ‚¹I");
             rapidPress = true;
         }
     }
@@ -131,7 +131,6 @@ public class GameController : MonoBehaviour
     private void SetMaxKeyAndMouseClickCount()
     {
         maxCount = Random.Range(10, 20);
-        uIController.SetStartText("˜A‘Å‚µ‚ëI");
         
     }
 

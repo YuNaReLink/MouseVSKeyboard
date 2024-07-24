@@ -20,7 +20,7 @@ public class MousePlayer : CharacterController
         if (magicShot.Fire) { return; }
         if (gameController.VictoryPlayer == VictoryPlayer.Mouse)
         {
-            magicShot.MagicFire();
+            magicShot.MagicFire(180);
         }
         ModeCommand();
     }

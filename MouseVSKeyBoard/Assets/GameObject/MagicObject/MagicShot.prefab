@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d57acd8613921244be0044583f28ff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magicBall: {fileID: 4706752038165037499, guid: a166a23420fe2104dbcfda2cbca6eeb1, type: 3}
+  magicBall: {fileID: 2676510424899646540, guid: 0bce0bbf5dfd68c428dee9a8a94d31f3, type: 3}
   magicSpeed: 1000
   fire: 0
   magicDirection: 1

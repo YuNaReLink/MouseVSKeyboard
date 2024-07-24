@@ -17,9 +17,9 @@ public class MagicShot : MonoBehaviour
     [SerializeField]
     private int magicDirection = 1;
 
-    public void MagicFire()
+    public void MagicFire(float anglesY)
     {
-        GameObject magic = Instantiate(magicBall, transform.position, Quaternion.Euler(transform.parent.eulerAngles.x, transform.parent.eulerAngles.y, 0));
+        GameObject magic = Instantiate(magicBall, transform.position, Quaternion.Euler(transform.parent.eulerAngles.x, anglesY, 0));
         Rigidbody2D magicRb = magic.GetComponent<Rigidbody2D>();
         magicRb.AddForce((transform.right * magicDirection) * magicSpeed);
         Destroy(magic, 3.0f);

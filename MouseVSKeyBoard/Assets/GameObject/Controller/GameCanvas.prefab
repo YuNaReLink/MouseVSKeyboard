@@ -113,8 +113,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -557, y: 159}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -544, y: -350}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7407733765890020219
 CanvasRenderer:
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -749132062, guid: a4dde2f672ec29143be038c5079d9e6b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6a336317257d0924f9fe5c2ab85ef4c2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -267,7 +267,7 @@ RectTransform:
   m_Children:
   - {fileID: 4516048935111733543}
   - {fileID: 7447870871934236470}
-  - {fileID: 6848157301778313917}
+  - {fileID: 5273867168610937352}
   - {fileID: 6207611946592799526}
   - {fileID: 2643640898182514265}
   - {fileID: 3205017055042889164}
@@ -354,20 +354,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiArray: []
-  StartUI: {fileID: 7303572294359964539}
-  startText: {fileID: 6475754107015665305}
-  mouseText: {fileID: 1427245457586580336}
+  ExplanationUI: {fileID: 7303572294359964539}
+  explanationText: {fileID: 6475754107015665305}
+  mouseButtonUIObject: {fileID: 9055254134917629129}
+  mouseButtonImage: {fileID: 1932665909822814751}
+  mouseSprite2DImage:
+  - {fileID: 21300000, guid: 7a623e17c46a8004b88775d017ba8a33, type: 3}
+  - {fileID: 21300000, guid: 8309cba8bbba60a48a8ebe5b6ecdcce7, type: 3}
+  - {fileID: 21300000, guid: de70bf3fbea604249894f2201b8ef11d, type: 3}
+  - {fileID: 21300000, guid: 0483ac9b97d38134d8b07b64ae06c174, type: 3}
   keyButtonUIObject: {fileID: 4189839540640954916}
   keyButtonImage: {fileID: 4388766451399061689}
-  sprite2DImage:
-  - {fileID: -749132062, guid: a4dde2f672ec29143be038c5079d9e6b, type: 3}
-  - {fileID: -161815327, guid: a4dde2f672ec29143be038c5079d9e6b, type: 3}
-  - {fileID: -1826286362, guid: a4dde2f672ec29143be038c5079d9e6b, type: 3}
+  keySprite2DImage:
+  - {fileID: 21300000, guid: 6a336317257d0924f9fe5c2ab85ef4c2, type: 3}
+  - {fileID: 21300000, guid: 7c726f69ba0637f4fafda2515a3487a2, type: 3}
+  - {fileID: 21300000, guid: 2a78d9bae5e9fac419b47fcda88b8d2a, type: 3}
+  - {fileID: 21300000, guid: aa12af26fc8459045a64dc36e8408d36, type: 3}
   resultText: {fileID: 8358954111637195580}
   victoryCountMouseText: {fileID: 3106390286092195115}
   victoryCountKeyBoardText: {fileID: 5993068538683032551}
-  keyBoardVictoryCount: 3
-  mouseVictoryCount: 0
 --- !u!1 &5798611993791698791
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,7 +408,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 370}
-  m_SizeDelta: {x: 900, y: 150}
+  m_SizeDelta: {x: 1500, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &905279818694815653
 CanvasRenderer:
@@ -526,7 +531,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u62BC\u305B!"
---- !u!1 &8050577475043874933
+--- !u!1 &9055254134917629129
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -534,9 +539,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6848157301778313917}
-  - component: {fileID: 5643000851955064108}
-  - component: {fileID: 1427245457586580336}
+  - component: {fileID: 5273867168610937352}
+  - component: {fileID: 4713572733034572997}
+  - component: {fileID: 1932665909822814751}
   m_Layer: 5
   m_Name: PreesMouseKeyText
   m_TagString: Untagged
@@ -544,13 +549,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &6848157301778313917
+--- !u!224 &5273867168610937352
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8050577475043874933}
+  m_GameObject: {fileID: 9055254134917629129}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -560,48 +565,44 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 557, y: 150}
-  m_SizeDelta: {x: 800, y: 150}
+  m_AnchoredPosition: {x: 544, y: -350}
+  m_SizeDelta: {x: 500, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &5643000851955064108
+--- !u!222 &4713572733034572997
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8050577475043874933}
+  m_GameObject: {fileID: 9055254134917629129}
   m_CullTransparentMesh: 1
---- !u!114 &1427245457586580336
+--- !u!114 &1932665909822814751
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8050577475043874933}
+  m_GameObject: {fileID: 9055254134917629129}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 100
-    m_FontStyle: 1
-    m_BestFit: 0
-    m_MinSize: 1
-    m_MaxSize: 100
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 
+  m_Sprite: {fileID: 21300000, guid: 7a623e17c46a8004b88775d017ba8a33, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
