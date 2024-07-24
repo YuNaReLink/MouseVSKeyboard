@@ -17,19 +17,51 @@ public class InputController
     public static KeyCode GetKeyTag() {  return key; }
     public bool RandomGetKey() { return Input.GetKeyDown(key); }
 
-    public void SetPressKey()
+    public void SetPushKey(GameManager.GameMode _mode)
     {
-        int num = Random.Range(0, 3);
-        switch (num)
+        int num = 0;
+        switch (_mode)
         {
-            case 0:
-                key = KeyCode.A;
+            case GameManager.GameMode.RapidPress:
+                num = Random.Range(0, 3);
+                switch (num)
+                {
+                    case 0:
+                        key = KeyCode.A;
+                        break;
+                    case 1:
+                        key = KeyCode.S;
+                        break;
+                    case 2:
+                        key = KeyCode.D;
+                        break;
+                }
                 break;
-            case 1:
-                key = KeyCode.S;
-                break;
-            case 2:
-                key = KeyCode.D;
+            case GameManager.GameMode.MutualPush:
+                num = Random.Range(0, 2);
+                switch (num)
+                {
+                    case 0:
+                        if(key == KeyCode.A)
+                        {
+                            key = KeyCode.D;
+                        }
+                        else
+                        {
+                            key = KeyCode.A;
+                        }
+                        break;
+                    case 1:
+                        if(key == KeyCode.D)
+                        {
+                            key = KeyCode.A;
+                        }
+                        else
+                        {
+                            key = KeyCode.D;
+                        }
+                        break;
+                }
                 break;
         }
     }
@@ -41,10 +73,42 @@ public class InputController
 
     public bool RandomMouseKey() { return Input.GetMouseButtonDown((int)mouseCode); }
 
-    public void SetPressMouseKey()
+    public void SetPressMouseKey(GameManager.GameMode _mode)
     {
-        int num = Random.Range(0, 2);
-        mouseCode = (MouseCode)num;
+        int num = 0;
+        switch (_mode)
+        {
+            case GameManager.GameMode.RapidPress:
+                num = Random.Range(0, 3);
+                mouseCode = (MouseCode)num;
+                break;
+            case GameManager.GameMode.MutualPush:
+                num = Random.Range(0, 2);
+                switch (num)
+                {
+                    case 0:
+                        if(mouseCode == MouseCode.Left)
+                        {
+                            mouseCode = MouseCode.Right;
+                        }
+                        else
+                        {
+                            mouseCode = MouseCode.Left;
+                        }
+                        break;
+                    case 1:
+                        if (mouseCode == MouseCode.Right)
+                        {
+                            mouseCode = MouseCode.Left;
+                        }
+                        else
+                        {
+                            mouseCode = MouseCode.Right;
+                        }
+                        break;
+                }
+                break;
+        }
     }
 
     public static bool AllPushMouseKey() { return Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2); }

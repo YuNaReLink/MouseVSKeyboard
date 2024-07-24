@@ -22,8 +22,8 @@ public class GameController : MonoBehaviour
     private int measurementNumber = 0;
 
     [SerializeField]
-    private static bool rapidPress = false;
-    public static bool IsRapidPressFlag() {  return rapidPress; }
+    private static bool inputEnabled = false;
+    public static bool IsRapidPressFlag() {  return inputEnabled; }
     [SerializeField]
     private int maxCount = 10;
     public int GetMaxCount() {  return maxCount; }
@@ -65,33 +65,49 @@ public class GameController : MonoBehaviour
 
     private void InitializeGameSetting()
     {
+        //現在の状態を設定
         GameManager.GameStateTag = GameManager.GameState.Game;
-        int modeValue = Random.Range(0, (int)GameManager.GameMode.DataEnd);
-        GameManager.GameModeTag = (GameManager.GameMode)modeValue;
-
+        //ゲームモードをランダムに設定
+        SetGameMode();
+        //ゲームが開始するまでのタイマーを設定
         gameEventTimer.GetTimerGameStartWait().StartTimer(2f);
-
+        //初期化
         victoryPlayer = VictoryPlayer.Null;
         keyCount = 0;
         clickCount = 0;
 
-        rapidPress = false;
+        inputEnabled = false;
+        
         mousePlayer.InitializePosition();
-
         keyBoardPlayer.InitializePosition();
-        keyBoardPlayer.SetRandomKey();
 
         uIController.SetResultUI(new Vector2(0,2000));
 
         switch (GameManager.GameModeTag)
         {
             case GameManager.GameMode.RapidPress:
+                keyBoardPlayer.SetRandomKey(GameManager.GameModeTag);
+                mousePlayer.SetRandomButton(GameManager.GameModeTag);
                 break;
             case GameManager.GameMode.BurstPush:
                 SetMaxKeyAndMouseClickCount();
                 break;
+            case GameManager.GameMode.MutualPush:
+                keyBoardPlayer.SetRandomKey(GameManager.GameModeTag);
+                mousePlayer.SetRandomButton(GameManager.GameModeTag);
+                SetStartButton();
+                break;
         }
         uIController.ChangeExplanationSprit((int)GameManager.GameModeTag);
+    }
+    private void SetGameMode()
+    {
+        int modeValue = Random.Range(0, (int)GameManager.GameMode.DataEnd);
+        if(GameManager.GameModeTag == (GameManager.GameMode)modeValue)
+        {
+            SetGameMode();
+        }
+        GameManager.GameModeTag = (GameManager.GameMode)modeValue;
     }
 
     void Update()
@@ -111,13 +127,14 @@ public class GameController : MonoBehaviour
         switch (GameManager.GameModeTag)
         {
             case GameManager.GameMode.RapidPress:
-                if (!rapidPress)
+                if (!inputEnabled)
                 {
                     SetRandomNumber();
                 }
                 break;
             case GameManager.GameMode.BurstPush:
-                rapidPress = true;
+            case GameManager.GameMode.MutualPush:
+                inputEnabled = true;
                 break;
         }
         if (gameEventTimer.GetTimerResetGameIdle().IsEnabled()) { return; }
@@ -140,14 +157,18 @@ public class GameController : MonoBehaviour
         measurementNumber = Random.Range(0, 100);
         if(measurementNumber < baseMeasurementValue)
         {
-            rapidPress = true;
+            inputEnabled = true;
         }
     }
 
     private void SetMaxKeyAndMouseClickCount()
     {
         maxCount = Random.Range(10, 20);
-        
+    }
+
+    private void SetStartButton()
+    {
+        maxCount = 10;
     }
 
     private void ResultText()

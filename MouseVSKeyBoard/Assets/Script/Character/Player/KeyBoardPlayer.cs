@@ -13,15 +13,22 @@ public class KeyBoardPlayer : CharacterController
         base.Start();
     }
 
-    public void SetRandomKey()
+    public void SetRandomKey(GameManager.GameMode _mode)
     {
-        inputController.SetPressKey();
+        gameMode = _mode;
+        inputController.SetPushKey(gameMode);
     }
 
     private void Update()
     {
-        //魔法陣の処理
-        MagicCircleMakeItBigger();
+        switch (GameManager.GameModeTag)
+        {
+            case GameManager.GameMode.BurstPush:
+            case GameManager.GameMode.MutualPush:
+                //魔法陣の処理
+                MagicCircleMakeItBigger(gameController.KeyCount);
+                break;
+        }
 
         //魔法を発射する処理
         if (magicShot.Fire) { return; }
@@ -30,24 +37,9 @@ public class KeyBoardPlayer : CharacterController
             spriteRenderer.sprite = sprites[1];
             magicShot.MagicFire(0);
         }
+        //モード別の入力処理
         ModeCommand();
 
-    }
-
-    private void MagicCircleMakeItBigger()
-    {
-        Vector3 scale = magicCircle.localScale;
-        /*
-         */
-        float rangeDifference = 0.5f - 0;
-        float add = rangeDifference / (gameController.GetMaxCount() - 1);
-        scale.x = 0 + (gameController.KeyCount * add);
-        rangeDifference = 1f - 0;
-        add = rangeDifference / (gameController.GetMaxCount() - 1);
-        scale.y = 0 + (gameController.KeyCount * add);
-        scale.z = 0 + (gameController.KeyCount * add);
-        //scale = Vector3.Lerp(scale, new Vector3(0.05f, 0.1f, 0.1f), 1);
-        magicCircle.localScale = scale;
     }
 
     private void ModeCommand()
@@ -62,6 +54,9 @@ public class KeyBoardPlayer : CharacterController
             case GameManager.GameMode.BurstPush:
                 ClickKeyCommand();
                 break;
+            case GameManager.GameMode.MutualPush:
+                MutualClickKeyCommand();
+                break;
         }
     }
     private void ClickKeyCommand()
@@ -70,6 +65,21 @@ public class KeyBoardPlayer : CharacterController
         if (Input.GetKeyDown(KeyCode.A))
         {
             gameController.KeyCount++;
+        }
+
+        if (gameController.KeyCount >= gameController.GetMaxCount())
+        {
+            gameController.VictoryPlayer = VictoryPlayer.KeyBoard;
+        }
+    }
+
+    private void MutualClickKeyCommand()
+    {
+        gameController.SetViewPushKey(InputController.GetKeyTag());
+        if (inputController.RandomGetKey())
+        {
+            gameController.KeyCount++;
+            inputController.SetPushKey(gameMode);
         }
 
         if (gameController.KeyCount >= gameController.GetMaxCount())

@@ -9,6 +9,7 @@ public class GameManager
         Null = -1,
         RapidPress,
         BurstPush,
+        MutualPush,
         DataEnd
     }
 

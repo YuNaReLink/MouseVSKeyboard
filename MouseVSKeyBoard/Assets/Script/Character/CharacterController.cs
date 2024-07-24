@@ -32,6 +32,9 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     protected List<Sprite> sprites = new List<Sprite>();
     public List<Sprite> GetSprites() { return sprites; }
+
+    [SerializeField]
+    protected GameManager.GameMode gameMode = GameManager.GameMode.Null;
     protected virtual void Awake()
     {
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
@@ -58,6 +61,19 @@ public class CharacterController : MonoBehaviour
         transform.rotation = Quaternion.Euler(baseRotate);
         rigidbody2D.velocity = Vector2.zero;
         magicCircle.transform.localScale = Vector3.zero;
+    }
+
+    public void MagicCircleMakeItBigger(int _count)
+    {
+        Vector3 scale = magicCircle.localScale;
+        float rangeDifference = 0.5f - 0;
+        float add = rangeDifference / (gameController.GetMaxCount() - 1);
+        scale.x = 0 + (_count * add);
+        rangeDifference = 1f - 0;
+        add = rangeDifference / (gameController.GetMaxCount() - 1);
+        scale.y = 0 + (_count * add);
+        scale.z = 0 + (_count * add);
+        magicCircle.localScale = scale;
     }
 
     private void OnTriggerEnter(Collider other)

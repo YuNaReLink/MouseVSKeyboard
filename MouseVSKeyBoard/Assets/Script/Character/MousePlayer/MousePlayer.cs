@@ -13,12 +13,24 @@ public class MousePlayer : CharacterController
     protected override void Start()
     {
         base.Start();
-        inputController.SetPressMouseKey();
     }
+
+    public void SetRandomButton(GameManager.GameMode _mode)
+    {
+        gameMode = _mode;
+        inputController.SetPressMouseKey(gameMode);
+    }
+
     private void Update()
     {
-        //–‚–@w‚Ìˆ—
-        MagicCircleMakeItBigger();
+        switch (GameManager.GameModeTag)
+        {
+            case GameManager.GameMode.BurstPush:
+            case GameManager.GameMode.MutualPush:
+                //–‚–@w‚Ìˆ—
+                MagicCircleMakeItBigger(gameController.ClickCount);
+                break;
+        }
 
         if (magicShot.Fire) { return; }
         if (gameController.VictoryPlayer == VictoryPlayer.Mouse)
@@ -26,20 +38,8 @@ public class MousePlayer : CharacterController
             spriteRenderer.sprite = sprites[1];
             magicShot.MagicFire(180);
         }
+        //ƒ‚[ƒh•Ê‚Ì“ü—Íˆ—
         ModeCommand();
-    }
-
-    private void MagicCircleMakeItBigger()
-    {
-        Vector3 scale = magicCircle.localScale;
-        float rangeDifference = 0.5f - 0;
-        float add = rangeDifference / (gameController.GetMaxCount() - 1);
-        scale.x = 0 + (gameController.ClickCount * add);
-        rangeDifference = 1f - 0;
-        add = rangeDifference / (gameController.GetMaxCount() - 1);
-        scale.y = 0 + (gameController.ClickCount * add);
-        scale.z = 0 + (gameController.ClickCount * add);
-        magicCircle.localScale = scale;
     }
 
     private void ModeCommand()
@@ -54,6 +54,9 @@ public class MousePlayer : CharacterController
             case GameManager.GameMode.BurstPush:
                 ClickMouseCommand();
                 break;
+            case GameManager.GameMode.MutualPush:
+                MutualClickMouseCommand();
+                break;
         }
     }
 
@@ -66,6 +69,21 @@ public class MousePlayer : CharacterController
         }
 
         if(gameController.ClickCount >= gameController.GetMaxCount())
+        {
+            gameController.VictoryPlayer = VictoryPlayer.Mouse;
+        }
+    }
+
+    private void MutualClickMouseCommand()
+    {
+        gameController.SetViewPushMouseButton(InputController.GetMouseCode());
+        if (inputController.RandomMouseKey())
+        {
+            gameController.ClickCount++;
+            inputController.SetPressMouseKey(gameMode);
+        }
+
+        if (gameController.ClickCount >= gameController.GetMaxCount())
         {
             gameController.VictoryPlayer = VictoryPlayer.Mouse;
         }
