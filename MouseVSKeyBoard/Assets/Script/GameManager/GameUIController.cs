@@ -27,7 +27,13 @@ public class GameUIController : MonoBehaviour
     private Text keyBoardText = null;
 
     [SerializeField]
-    private Text mouseText = null;
+    private GameObject keyA;
+    
+    [SerializeField]
+    private GameObject keyS;
+
+    [SerializeField]
+    private GameObject keyD;
 
     [SerializeField]
     private Text resultText = null;
@@ -71,12 +77,15 @@ public class GameUIController : MonoBehaviour
         switch (_key)
         {
             case KeyCode.A:
+                keyA.SetActive(true);
                 keyBoardText.text = "A";
                 break;
             case KeyCode.S:
+                keyS.SetActive(true);
                 keyBoardText.text = "S";
                 break;
             case KeyCode.D:
+                keyD.SetActive(true);
                 keyBoardText.text = "D";
                 break;
         }
@@ -87,13 +96,13 @@ public class GameUIController : MonoBehaviour
         switch (code)
         {
             case MouseCode.Left:
-                mouseText.text = "¶ƒNƒŠƒbƒNI";
+                mouseText.text = "å·¦ã‚¯ãƒªãƒƒã‚¯ï¼";
                 break;
             case MouseCode.Right:
-                mouseText.text = "‰EƒNƒŠƒbƒNI";
+                mouseText.text = "å³ã‚¯ãƒªãƒƒã‚¯ï¼";
                 break;
             case MouseCode.Middle:
-                mouseText.text = "ƒzƒC[ƒ‹ƒNƒŠƒbƒNI";
+                mouseText.text = "ãƒ›ã‚¤ãƒ¼ãƒ«ã‚¯ãƒªãƒƒã‚¯ï¼";
                 break;
         }
     }
@@ -106,22 +115,23 @@ public class GameUIController : MonoBehaviour
         switch (_player)
         {
             case VictoryPlayer.KeyBoard:
-                result = "ƒL[ƒ{[ƒh‚ÌŸ—˜!";
+                result = "ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®å‹åˆ©!";
+                SetActiveOff();
                 break;
             case VictoryPlayer.Mouse:
-                result = "ƒ}ƒEƒX‚ÌŸ—˜!";
+                result = "ãƒã‚¦ã‚¹ã®å‹åˆ©!";
                 break;
             case VictoryPlayer.Draw:
-                result = "ˆø‚«•ª‚¯I";
+                result = "å¼•ãåˆ†ã‘ï¼";
                 break;
         }
         if (!ofLoop)
         {
-            if(result == "ƒL[ƒ{[ƒh‚ÌŸ—˜!")
+            if(result == "ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®å‹åˆ©!")
             {
                 keyBoardVictoryCount++;
             }
-            else if(result == "ƒ}ƒEƒX‚ÌŸ—˜!")
+            else if(result == "ãƒã‚¦ã‚¹ã®å‹åˆ©!")
             {
                 mouseVictoryCount++;
             }
@@ -136,6 +146,13 @@ public class GameUIController : MonoBehaviour
     public void VictoryCountText() {
         victoryCountKeyBoardText.text = "WIN : " + keyBoardVictoryCount.ToString();
         victoryCountMouseText.text = "WIN : " +  mouseVictoryCount.ToString();
+    }
+
+    private void SetActiveOff()
+    {
+        keyA.SetActive(false);
+        keyS.SetActive(false);
+        keyD.SetActive(false);
     }
 
     private void SetAllActiveUI(bool _enabled)
