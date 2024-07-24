@@ -11,9 +11,12 @@ public class KeyBoardPlayer : CharacterController
     protected override void Start()
     {
         base.Start();
-        inputController.SetPressKey();
     }
 
+    public void SetRandomKey()
+    {
+        inputController.SetPressKey();
+    }
 
     private void Update()
     {

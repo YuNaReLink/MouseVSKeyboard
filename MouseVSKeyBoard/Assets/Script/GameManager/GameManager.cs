@@ -14,4 +14,15 @@ public class GameManager
 
     private static GameMode gameMode = GameMode.Null;
     public static GameMode GameModeTag { get { return gameMode; } set { gameMode = value; } }
+
+    public enum GameState
+    {
+        Null = -1,
+        Title,
+        Game,
+        Result,
+        DataEnd
+    }
+    private static GameState gameState = GameState.Null;
+    public static GameState GameStateTag { get {return gameState; } set {gameState = value; } }
 }

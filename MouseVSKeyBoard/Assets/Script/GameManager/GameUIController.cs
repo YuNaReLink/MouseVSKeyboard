@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,23 +16,21 @@ public class GameUIController : MonoBehaviour
     [SerializeField]
     private List<GameObject> uiArray = new List<GameObject>();
     [SerializeField]
-    private GameObject StartUI = null;
-    public GameObject GetStartUI() {  return StartUI; }
+    private GameObject ExplanationUI = null;
+    public GameObject GetExplanationUI() {  return ExplanationUI; }
 
     [SerializeField]
-    private Text startText = null;
+    private Text explanationText = null;
 
     [SerializeField]
-    private Text keyBoardText = null;
+    private Text mouseText = null;
 
     [SerializeField]
-    private GameObject keyA;
-    
+    private GameObject keyButtonUIObject = null;
     [SerializeField]
-    private GameObject keyS;
-
+    private Image keyButtonImage = null;
     [SerializeField]
-    private GameObject keyD;
+    private List<Sprite> sprite2DImage = new List<Sprite>();
 
     [SerializeField]
     private Text resultText = null;
@@ -43,10 +40,6 @@ public class GameUIController : MonoBehaviour
 
     [SerializeField]
     private Text victoryCountKeyBoardText = null;
-
-    public int keyBoardVictoryCount = 0;
-
-    public int mouseVictoryCount = 0;
 
     private bool ofLoop = false;
 
@@ -77,18 +70,16 @@ public class GameUIController : MonoBehaviour
         switch (_key)
         {
             case KeyCode.A:
-                keyA.SetActive(true);
-                keyBoardText.text = "A";
+                keyButtonImage.sprite = sprite2DImage[0];
                 break;
             case KeyCode.S:
-                keyS.SetActive(true);
-                keyBoardText.text = "S";
+                keyButtonImage.sprite = sprite2DImage[1];
                 break;
             case KeyCode.D:
-                keyD.SetActive(true);
-                keyBoardText.text = "D";
+                keyButtonImage.sprite = sprite2DImage[2];
                 break;
         }
+        keyButtonImage.enabled = true;
     }
 
     public void SetMouseButtonText(MouseCode code)
@@ -115,44 +106,24 @@ public class GameUIController : MonoBehaviour
         switch (_player)
         {
             case VictoryPlayer.KeyBoard:
-                result = "キーボードの勝利!";
-                SetActiveOff();
+                result = "青の勝利!";
                 break;
             case VictoryPlayer.Mouse:
-                result = "マウスの勝利!";
+                result = "赤の勝利!";
                 break;
             case VictoryPlayer.Draw:
                 result = "引き分け！";
                 break;
         }
-        if (!ofLoop)
-        {
-            if(result == "キーボードの勝利!")
-            {
-                keyBoardVictoryCount++;
-            }
-            else if(result == "マウスの勝利!")
-            {
-                mouseVictoryCount++;
-            }
-            ofLoop = true;
-        }
         resultText.text = result;
         uiArray[(int)UITag.Start].SetActive(false);
-        keyBoardText.text = "";
+        keyButtonImage.enabled = false;
         mouseText.text = "";
     }
 
-    public void VictoryCountText() {
-        victoryCountKeyBoardText.text = "WIN : " + keyBoardVictoryCount.ToString();
-        victoryCountMouseText.text = "WIN : " +  mouseVictoryCount.ToString();
-    }
-
-    private void SetActiveOff()
-    {
-        keyA.SetActive(false);
-        keyS.SetActive(false);
-        keyD.SetActive(false);
+    public void VictoryCountText(int _keyNum,int _mouseNum) {
+        victoryCountKeyBoardText.text = "WIN : " + _keyNum.ToString();
+        victoryCountMouseText.text = "WIN : " +  _mouseNum.ToString();
     }
 
     private void SetAllActiveUI(bool _enabled)
@@ -165,6 +136,20 @@ public class GameUIController : MonoBehaviour
 
     public void SetStartText(string _text)
     {
-        startText.text = _text;
+        explanationText.text = _text;
+    }
+
+    public void WinResultUI(VictoryPlayer player)
+    {
+        string result = null;
+        if(player == VictoryPlayer.KeyBoard)
+        {
+            result = "キーボードが栄光を掴んだ!";
+        }
+        else if(player == VictoryPlayer.Mouse)
+        {
+            result = "マウスが栄光を掴んだ!";
+        }
+        resultText.text = result;
     }
 }

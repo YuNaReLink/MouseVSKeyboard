@@ -44,6 +44,11 @@ public class GameController : MonoBehaviour
     private VictoryPlayer victoryPlayer = VictoryPlayer.Null;
     public VictoryPlayer VictoryPlayer { get { return victoryPlayer; } set { victoryPlayer = value; } }
 
+    private int keyBoardVictoryCount = 0;
+    public int GetKeyBoardVictoryCount() { return keyBoardVictoryCount; }
+
+    private int mouseVictoryCount = 0;
+    public int GetMouseVictoryCount() { return mouseVictoryCount; }
 
     private GameEventTimer gameEventTimer = null;
     private void Start()
@@ -76,7 +81,9 @@ public class GameController : MonoBehaviour
 
         rapidPress = false;
         mousePlayer.GetMagicShot().Fire = false;
+
         keyBoardPlayer.GetMagicShot().Fire = false;
+        keyBoardPlayer.SetRandomKey();
 
         switch (GameManager.GameModeTag)
         {
@@ -90,6 +97,7 @@ public class GameController : MonoBehaviour
     {
         gameEventTimer.TimerUpdate();
         if (gameEventTimer.GetTimerGameStartWait().IsEnabled()) { return; }
+        if(GameManager.GameStateTag == GameManager.GameState.Result) { return; }
 
         switch (GameManager.GameModeTag)
         {
@@ -100,7 +108,7 @@ public class GameController : MonoBehaviour
                 }
                 break;
             case GameManager.GameMode.BurstPush:
-                uIController.GetStartUI().SetActive(true);
+                uIController.GetExplanationUI().SetActive(true);
                 rapidPress = true;
                 break;
         }
@@ -114,7 +122,7 @@ public class GameController : MonoBehaviour
         measurementNumber = Random.Range(0, 100);
         if(measurementNumber < baseMeasurementValue)
         {
-            uIController.GetStartUI().SetActive(true);
+            uIController.GetExplanationUI().SetActive(true);
             uIController.SetStartText("‰Ÿ‚¹I");
             rapidPress = true;
         }
@@ -136,18 +144,21 @@ public class GameController : MonoBehaviour
         {
             case VictoryPlayer.KeyBoard:
                 uIController.ResultUI(victoryPlayer);
+                keyBoardVictoryCount++;
                 break;
             case VictoryPlayer.Mouse:
                 uIController.ResultUI(victoryPlayer);
+                mouseVictoryCount++;
                 break;
             case VictoryPlayer.Draw:
                 uIController.ResultUI(victoryPlayer);
                 break;
         }
-        uIController.VictoryCountText();
+        uIController.VictoryCountText(keyBoardVictoryCount,mouseVictoryCount);
         gameEventTimer.GetTimerResetGameIdle().StartTimer(5f);
         gameEventTimer.GetTimerResetGameIdle().OnCompleted += () =>
         {
+            if (WinningResults()) { return; }
             InitializeGameSetting();
             uIController.InitilaizeGameUISetting();
         };
@@ -180,5 +191,22 @@ public class GameController : MonoBehaviour
     public void SetViewPushMouseButton(MouseCode code)
     {
         uIController.SetMouseButtonText(code);
+    }
+
+    private bool WinningResults()
+    {
+        bool noWin = keyBoardVictoryCount != 3 && mouseVictoryCount != 3;
+        if (noWin) { return false; }
+        GameManager.GameStateTag = GameManager.GameState.Result;
+        if (keyBoardVictoryCount >= 3)
+        {
+            victoryPlayer = VictoryPlayer.KeyBoard;
+        }
+        else if (mouseVictoryCount >= 3)
+        {
+            victoryPlayer = VictoryPlayer.Mouse;
+        }
+        uIController.WinResultUI(victoryPlayer);
+        return true;
     }
 }

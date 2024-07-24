@@ -19,7 +19,7 @@ public class InputController
 
     public void SetPressKey()
     {
-        int num = Random.Range(0, 2);
+        int num = Random.Range(0, 3);
         switch (num)
         {
             case 0:

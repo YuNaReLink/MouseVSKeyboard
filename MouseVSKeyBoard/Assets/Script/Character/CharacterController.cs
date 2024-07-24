@@ -22,20 +22,14 @@ public class CharacterController : MonoBehaviour
     public MagicShot GetMagicShot() { return magicShot; }
     protected virtual void Awake()
     {
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        inputController = new InputController();
         magicShot = GetComponentInChildren<MagicShot>();
     }
     protected virtual void Start()
     {
-        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-        inputController = new InputController();
 
         basePosition = transform.position;
         victryPosition = new Vector2(0, basePosition.y);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
