@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,7 +14,13 @@ public class StartButton : MonoBehaviour
     private float overTime = 0;
 
     [SerializeField]
+    private float nextTime = 0;
+
     private float currentTime = 0;
+
+    private float goSceneTime = 0; 
+
+    bool goSceneFlg = false;
 
     private NextScene nextScene = null;
 
@@ -24,22 +31,42 @@ public class StartButton : MonoBehaviour
         nextScene = GetComponent<NextScene>();
 
         startButtonText = GetComponent<Text>();
+
     }
     private void Update()
     {
         if (Input.anyKeyDown)
         {
-            nextScene.GoScene();
+            goSceneFlg = true;
+            active = false;
+        }
+        StartActive();
+        SceneNext();
+    }
+
+    private void SceneNext()
+    {
+        if (goSceneFlg)
+        {
+            goSceneTime += Time.deltaTime;
+            if(nextTime < goSceneTime)
+            {
+                nextScene.GoScene();
+                goSceneTime = 0;
+            }
         }
 
+    }
+
+    private void StartActive()
+    {
         currentTime += Time.deltaTime;
-        if(overTime < currentTime)
+        startButtonText.enabled = active;
+        if (overTime < currentTime && !goSceneFlg)
         {
             active = !active;
 
-            startButtonText.enabled = active;
             currentTime = 0;
         }
-
     }
 }
