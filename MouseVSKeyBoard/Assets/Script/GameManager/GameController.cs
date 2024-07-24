@@ -48,21 +48,35 @@ public class GameController : MonoBehaviour
     private GameEventTimer gameEventTimer = null;
     private void Start()
     {
+        Initialize();
+
+        InitializeGameSetting();
+    }
+
+    private void Initialize()
+    {
         uIController = GameObject.FindGameObjectWithTag("UIController").GetComponent<GameUIController>();
         keyBoardPlayer = GameObject.FindGameObjectWithTag("KeyBoardPlayer").GetComponent<KeyBoardPlayer>();
         mousePlayer = GameObject.FindGameObjectWithTag("MousePlayer").GetComponent<MousePlayer>();
 
         gameEventTimer = new GameEventTimer();
         gameEventTimer.InitializeAssignTimer();
-        gameEventTimer.GetTimerGameStartWait().StartTimer(2f);
+    }
 
-
+    private void InitializeGameSetting()
+    {
         int modeValue = Random.Range(0, (int)GameManager.GameMode.DataEnd);
         GameManager.GameModeTag = (GameManager.GameMode)modeValue;
-        
 
+        gameEventTimer.GetTimerGameStartWait().StartTimer(2f);
+
+        victoryPlayer = VictoryPlayer.Null;
         keyCount = 0;
         clickCount = 0;
+
+        rapidPress = false;
+        mousePlayer.GetMagicShot().Fire = false;
+        keyBoardPlayer.GetMagicShot().Fire = false;
 
         switch (GameManager.GameModeTag)
         {
@@ -86,18 +100,13 @@ public class GameController : MonoBehaviour
                 }
                 break;
             case GameManager.GameMode.BurstPush:
-                if (!rapidPress)
-                {
-                    SetRandomNumber();
-                }
                 uIController.GetStartUI().SetActive(true);
                 rapidPress = true;
                 break;
         }
-
+        if (gameEventTimer.GetTimerResetGameIdle().IsEnabled()) { return; }
         ResultText();
-
-        uIController.VictoryCountText();
+        
     }
 
     private void SetRandomNumber()
@@ -120,6 +129,7 @@ public class GameController : MonoBehaviour
 
     private void ResultText()
     {
+        if(victoryPlayer == VictoryPlayer.Null) { return; }
         DrawResult();
 
         switch (victoryPlayer)
@@ -134,7 +144,13 @@ public class GameController : MonoBehaviour
                 uIController.ResultUI(victoryPlayer);
                 break;
         }
-        
+        uIController.VictoryCountText();
+        gameEventTimer.GetTimerResetGameIdle().StartTimer(5f);
+        gameEventTimer.GetTimerResetGameIdle().OnCompleted += () =>
+        {
+            InitializeGameSetting();
+            uIController.InitilaizeGameUISetting();
+        };
     }
 
     private void DrawResult()

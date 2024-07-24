@@ -53,18 +53,17 @@ public class GameUIController : MonoBehaviour
         }
 
 
+        InitilaizeGameUISetting();
+    }
+    
+    public void InitilaizeGameUISetting()
+    {
         if (uiArray[(int)UITag.Start] != null)
         {
             uiArray[(int)UITag.Start].SetActive(false);
         }
-    }
-    void Start()
-    {
-    }
-
-    void Update()
-    {
-
+        
+        resultText.text = "";
     }
 
     public void SetKeyBoardText(KeyCode _key)
@@ -130,8 +129,8 @@ public class GameUIController : MonoBehaviour
         }
         resultText.text = result;
         uiArray[(int)UITag.Start].SetActive(false);
-        uiArray[(int)UITag.PressKey].SetActive(false);
-        uiArray[(int)UITag.PressMouseKey].SetActive(false);
+        keyBoardText.text = "";
+        mouseText.text = "";
     }
 
     public void VictoryCountText() {
