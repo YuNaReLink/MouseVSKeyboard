@@ -62,8 +62,11 @@ public class GameUIController : MonoBehaviour
     [SerializeField]
     private Text victoryCountKeyBoardText = null;
 
-    private bool ofLoop = false;
+    [SerializeField]
+    private RectTransform PoasePanelTransform = null;
 
+    [SerializeField]
+    private GameButtonController gameButtonController = null;
     private void Awake()
     {
         int count = transform.childCount;
@@ -76,12 +79,27 @@ public class GameUIController : MonoBehaviour
         InitilaizeGameUISetting();
 
         baseExplanationPosition = explanationUITransform.transform.position;
+
+        gameButtonController = GetComponent<GameButtonController>();
+        gameButtonController.ActiveButton(false);
     }
     
     public void InitilaizeGameUISetting()
     {
         moveUIPos = new Vector2(0, 370);
         moveFlag = true;
+    }
+
+    public void MovePoasePanel(Vector2 movePos)
+    {
+        PoasePanelTransform.anchoredPosition = Vector2.Lerp(PoasePanelTransform.anchoredPosition, movePos, Time.deltaTime * 5f);
+        Vector2 sub = PoasePanelTransform.anchoredPosition - movePos;
+        float dis = sub.magnitude;
+        if (dis <= 0.1)
+        {
+            PoasePanelTransform.anchoredPosition = movePos;
+            
+        }
     }
 
     public void MoveExplanationUI(Vector2 movePos)
@@ -104,6 +122,7 @@ public class GameUIController : MonoBehaviour
         if (dis <= 0.1)
         {
             winResultUITransform.anchoredPosition = movePos;
+            gameButtonController.ActiveButton(true);
         }
     }
 
