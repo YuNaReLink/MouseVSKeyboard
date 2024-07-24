@@ -23,6 +23,7 @@ public class KeyBoardPlayer : CharacterController
         if (magicShot.Fire) { return; }
         if (gameController.VictoryPlayer == VictoryPlayer.KeyBoard)
         {
+            spriteRenderer.sprite = sprites[1];
             magicShot.MagicFire(0);
         }
         ModeCommand();

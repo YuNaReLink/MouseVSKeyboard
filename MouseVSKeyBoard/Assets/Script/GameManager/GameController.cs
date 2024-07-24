@@ -75,17 +75,22 @@ public class GameController : MonoBehaviour
         clickCount = 0;
 
         rapidPress = false;
-        mousePlayer.GetMagicShot().Fire = false;
+        mousePlayer.InitializePosition();
 
-        keyBoardPlayer.GetMagicShot().Fire = false;
+        keyBoardPlayer.InitializePosition();
         keyBoardPlayer.SetRandomKey();
+
+        uIController.SetResultUI(new Vector2(0,2000));
 
         switch (GameManager.GameModeTag)
         {
+            case GameManager.GameMode.RapidPress:
+                break;
             case GameManager.GameMode.BurstPush:
                 SetMaxKeyAndMouseClickCount();
                 break;
         }
+        uIController.ChangeExplanationSprit((int)GameManager.GameModeTag);
     }
 
     void Update()
@@ -117,6 +122,10 @@ public class GameController : MonoBehaviour
     private void MoveUI()
     {
         uIController.MoveExplanationUI(uIController.MoveUIPos);
+        if(GameManager.GameStateTag == GameManager.GameState.Result)
+        {
+            uIController.MoveWinResultUI(new Vector2(0, 370));
+        }
     }
 
     private void SetRandomNumber()
@@ -142,10 +151,12 @@ public class GameController : MonoBehaviour
         switch (victoryPlayer)
         {
             case VictoryPlayer.KeyBoard:
+                uIController.SetResultUI(new Vector2(-550, 200));
                 uIController.ResultUI(victoryPlayer);
                 keyBoardVictoryCount++;
                 break;
             case VictoryPlayer.Mouse:
+                uIController.SetResultUI(new Vector2(550, 200));
                 uIController.ResultUI(victoryPlayer);
                 mouseVictoryCount++;
                 break;

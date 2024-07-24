@@ -7,10 +7,11 @@ public class GameUIController : MonoBehaviour
     public enum UITag
     {
         Null = -1,
-        Start,
+        Explanation,
         PressKey,
         PressMouseKey,
         Result,
+        WinResult,
         DataEnd
     }
     [SerializeField]
@@ -46,7 +47,14 @@ public class GameUIController : MonoBehaviour
     private List<Sprite> keySprite2DImage = new List<Sprite>();
 
     [SerializeField]
-    private Text resultText = null;
+    private RectTransform resultUITransform = null;
+    [SerializeField]
+    private Image resultImage = null;
+
+    [SerializeField]
+    private RectTransform winResultUITransform = null;
+    [SerializeField]
+    private Text winResultUIText = null;
 
     [SerializeField]
     private Text victoryCountMouseText = null;
@@ -63,6 +71,8 @@ public class GameUIController : MonoBehaviour
         {
             uiArray.Add(transform.GetChild(i).gameObject);
         }
+        winResultUIText = winResultUITransform.GetComponentInChildren<Text>();
+        winResultUITransform.anchoredPosition = new Vector2(0, 750);
         InitilaizeGameUISetting();
 
         baseExplanationPosition = explanationUITransform.transform.position;
@@ -72,7 +82,6 @@ public class GameUIController : MonoBehaviour
     {
         moveUIPos = new Vector2(0, 370);
         moveFlag = true;
-        resultText.text = "";
     }
 
     public void MoveExplanationUI(Vector2 movePos)
@@ -85,6 +94,22 @@ public class GameUIController : MonoBehaviour
             explanationUITransform.anchoredPosition = movePos;
             moveFlag = false;
         }
+    }
+
+    public void MoveWinResultUI(Vector2 movePos)
+    {
+        winResultUITransform.anchoredPosition = Vector2.Lerp(winResultUITransform.anchoredPosition, movePos, Time.deltaTime * 5f);
+        Vector2 sub = winResultUITransform.anchoredPosition - movePos;
+        float dis = sub.magnitude;
+        if (dis <= 0.1)
+        {
+            winResultUITransform.anchoredPosition = movePos;
+        }
+    }
+
+    public void SetResultUI(Vector2 pos)
+    {
+        resultUITransform.anchoredPosition = pos;
     }
 
     public void SetKeyBoardText(KeyCode _key)
@@ -138,8 +163,6 @@ public class GameUIController : MonoBehaviour
                 break;
         }
         moveUIPos = new Vector2(0, 750);
-        resultText.text = result;
-        //uiArray[(int)UITag.Start].SetActive(false);
         keyButtonImage.sprite = keySprite2DImage[0];
         mouseButtonImage.sprite = mouseSprite2DImage[0];
     }
@@ -162,12 +185,17 @@ public class GameUIController : MonoBehaviour
         string result = null;
         if(player == VictoryPlayer.KeyBoard)
         {
-            result = "キーボードが栄光を掴んだ!";
+            result = "キーボードの勝利だ！";
         }
         else if(player == VictoryPlayer.Mouse)
         {
-            result = "マウスが栄光を掴んだ!";
+            result = "マウスの勝利だ!";
         }
-        resultText.text = result;
+        winResultUIText.text = result;
+    }
+
+    public void ChangeExplanationSprit(int _num)
+    {
+        explanationImage.sprite = explanationSprite2DImages[_num];
     }
 }
