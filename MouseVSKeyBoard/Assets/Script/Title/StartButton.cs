@@ -35,7 +35,11 @@ public class StartButton : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.anyKeyDown)
+        if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyUp(KeyCode.Escape)|| Input.GetKey(KeyCode.Escape))
+        {
+            
+        }          
+        else if (Input.anyKeyDown)
         {
             goSceneFlg = true;
             active = false;

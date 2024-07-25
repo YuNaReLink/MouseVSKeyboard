@@ -8,6 +8,8 @@ TagManager:
   - KeyBoardPlayer
   - MousePlayer
   - Damage
+  - OptionObject
+  - GameEnd
   layers:
   - Default
   - TransparentFX
