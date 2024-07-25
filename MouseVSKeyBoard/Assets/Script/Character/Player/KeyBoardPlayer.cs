@@ -66,9 +66,10 @@ public class KeyBoardPlayer : CharacterController
     }
     private void ClickKeyCommand()
     {
-        gameController.SetViewPushKey(KeyCode.A);
+        gameController.SetViewPushKey(false,KeyCode.A);
         if (Input.GetKeyDown(KeyCode.A))
         {
+            gameController.SetViewPushKey(true, KeyCode.A);
             gameController.KeyCount++;
         }
 
@@ -81,12 +82,13 @@ public class KeyBoardPlayer : CharacterController
 
     private void MutualClickKeyCommand()
     {
-        gameController.SetViewPushKey(InputController.GetKeyTag());
         if (inputController.RandomGetKey())
         {
+            gameController.SetViewPushKey(true, InputController.GetKeyTag());
             gameController.KeyCount++;
             inputController.SetPushKey(gameMode);
         }
+        gameController.SetViewPushKey(false,InputController.GetKeyTag());
 
         if (gameController.KeyCount >= gameController.GetMaxCount())
         {
@@ -97,9 +99,10 @@ public class KeyBoardPlayer : CharacterController
 
     private void PressKeyCommand()
     {
-        gameController.SetViewPushKey(InputController.GetKeyTag());
+        gameController.SetViewPushKey(false, InputController.GetKeyTag());
         if (inputController.RandomGetKey())
         {
+            gameController.SetViewPushKey(true, InputController.GetKeyTag());
             gameController.VictoryPlayer = VictoryPlayer.KeyBoard;
             MagicShotCommand();
         }

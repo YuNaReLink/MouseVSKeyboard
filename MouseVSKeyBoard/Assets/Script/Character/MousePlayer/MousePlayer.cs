@@ -68,9 +68,10 @@ public class MousePlayer : CharacterController
 
     private void ClickMouseCommand()
     {
-        gameController.SetViewPushMouseButton(MouseCode.Left);
+        gameController.SetViewPushMouseButton(false,MouseCode.Left);
         if (Input.GetMouseButtonDown(0))
         {
+            gameController.SetViewPushMouseButton(true,MouseCode.Left);
             gameController.ClickCount++;
         }
 
@@ -83,12 +84,13 @@ public class MousePlayer : CharacterController
 
     private void MutualClickMouseCommand()
     {
-        gameController.SetViewPushMouseButton(InputController.GetMouseCode());
         if (inputController.RandomMouseKey())
         {
+            gameController.SetViewPushMouseButton(true, InputController.GetMouseCode());
             gameController.ClickCount++;
             inputController.SetPressMouseKey(gameMode);
         }
+        gameController.SetViewPushMouseButton(false,InputController.GetMouseCode());
 
         if (gameController.ClickCount >= gameController.GetMaxCount())
         {
@@ -99,9 +101,10 @@ public class MousePlayer : CharacterController
 
     private void PressKeyCommand()
     {
-        gameController.SetViewPushMouseButton(InputController.GetMouseCode());
+        gameController.SetViewPushMouseButton(false, InputController.GetMouseCode());
         if (inputController.RandomMouseKey())
         {
+            gameController.SetViewPushMouseButton(true, InputController.GetMouseCode());
             gameController.VictoryPlayer = VictoryPlayer.Mouse;
             MagaicShotCommand();
         }

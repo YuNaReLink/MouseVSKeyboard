@@ -33,18 +33,12 @@ public class GameUIController : MonoBehaviour
     public Vector2 MoveUIPos { get { return moveUIPos; } set { moveUIPos = value; } }
 
     [SerializeField]
-    private GameObject mouseButtonUIObject = null;
-    [SerializeField]
-    private Image mouseButtonImage = null;
-    [SerializeField]
-    private List<Sprite> mouseSprite2DImage = new List<Sprite>();
+    private MouseTexture mouseTexture = null;
+    public MouseTexture GetMouseTexture() { return mouseTexture; }
 
     [SerializeField]
-    private GameObject keyButtonUIObject = null;
-    [SerializeField]
-    private Image keyButtonImage = null;
-    [SerializeField]
-    private List<Sprite> keySprite2DImage = new List<Sprite>();
+    private KeyBoardTexture keyBoardTexture = null;
+    public KeyBoardTexture GetKeyBoardTexture() { return keyBoardTexture; }
 
     [SerializeField]
     private RectTransform resultUITransform = null;
@@ -84,6 +78,12 @@ public class GameUIController : MonoBehaviour
 
         gameButtonController = GetComponent<GameButtonController>();
         gameButtonController.ActiveButton(false);
+
+        mouseTexture = GetComponentInChildren<MouseTexture>();
+        mouseTexture.Initialize();
+
+        keyBoardTexture = GetComponentInChildren<KeyBoardTexture>();
+        keyBoardTexture.Initialize();
     }
     
     public void InitilaizeGameUISetting()
@@ -146,30 +146,29 @@ public class GameUIController : MonoBehaviour
         switch (_key)
         {
             case KeyCode.A:
-                keyButtonImage.sprite = keySprite2DImage[1];
+                keyBoardTexture.ChangeTexture(1);
                 break;
             case KeyCode.S:
-                keyButtonImage.sprite = keySprite2DImage[2];
+                keyBoardTexture.ChangeTexture(2);
                 break;
             case KeyCode.D:
-                keyButtonImage.sprite = keySprite2DImage[3];
+                keyBoardTexture.ChangeTexture(3);
                 break;
         }
-        keyButtonImage.enabled = true;
     }
 
-    public void SetMouseButtonText(MouseCode code)
+    public void SetMouseButtonUI(MouseCode code)
     {
         switch (code)
         {
             case MouseCode.Left:
-                mouseButtonImage.sprite = mouseSprite2DImage[1];
+                mouseTexture.ChangeTexture(1);
                 break;
             case MouseCode.Right:
-                mouseButtonImage.sprite = mouseSprite2DImage[2];
+                mouseTexture.ChangeTexture(2);
                 break;
             case MouseCode.Middle:
-                mouseButtonImage.sprite = mouseSprite2DImage[3];
+                mouseTexture.ChangeTexture(3);
                 break;
         }
     }
@@ -192,8 +191,8 @@ public class GameUIController : MonoBehaviour
                 break;
         }
         moveUIPos = new Vector2(0, 750);
-        keyButtonImage.sprite = keySprite2DImage[0];
-        mouseButtonImage.sprite = mouseSprite2DImage[0];
+        keyBoardTexture.ChangeTexture(0);
+        mouseTexture.ChangeTexture(0);
     }
 
     public void VictoryCountText(VictoryPlayer _player,int _keyNum,int _mouseNum) {

@@ -227,13 +227,31 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void SetViewPushKey(KeyCode _key)
+    public void SetViewPushKey(bool push,KeyCode _key)
     {
-        uIController.SetKeyBoardText(_key);
+        if (gameEventTimer.GetTimerKeyClickUICoolDown().IsEnabled()) { return; }
+        if (push)
+        {
+            gameEventTimer.GetTimerKeyClickUICoolDown().StartTimer(0.05f);
+            uIController.GetKeyBoardTexture().PushChangeTexture(_key);
+        }
+        else
+        {
+            uIController.SetKeyBoardText(_key);
+        }
     }
-    public void SetViewPushMouseButton(MouseCode code)
+    public void SetViewPushMouseButton(bool push,MouseCode code)
     {
-        uIController.SetMouseButtonText(code);
+        if (gameEventTimer.GetTimerMouseClickUICoolDown().IsEnabled()) { return; }
+        if (push)
+        {
+            gameEventTimer.GetTimerMouseClickUICoolDown().StartTimer(0.05f);
+            uIController.GetMouseTexture().PushChangeTexture((int)code);
+        }
+        else
+        {
+            uIController.SetMouseButtonUI(code);
+        }
     }
 
     private bool WinningResults()

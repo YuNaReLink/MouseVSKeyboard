@@ -571,6 +571,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &608149763 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4189839540640954916, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+  m_PrefabInstance: {fileID: 1715070386}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &608149767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608149763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd236b7fdfdad5641901d72af134079e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyBoardImage: {fileID: 0}
+  spriteArray:
+  - {fileID: 21300000, guid: 6a336317257d0924f9fe5c2ab85ef4c2, type: 3}
+  - {fileID: 21300000, guid: 7c726f69ba0637f4fafda2515a3487a2, type: 3}
+  - {fileID: 21300000, guid: 2a78d9bae5e9fac419b47fcda88b8d2a, type: 3}
+  - {fileID: 21300000, guid: aa12af26fc8459045a64dc36e8408d36, type: 3}
+  inputSpriteArray:
+  - {fileID: 21300000, guid: 09dba9ae664ae324086bbbc475fe3a8a, type: 3}
+  - {fileID: 21300000, guid: 2efc042b30a0474449c1b0d5e1faa2f0, type: 3}
+  - {fileID: 21300000, guid: 2c0b120355bbde14494e6a37370ac249, type: 3}
 --- !u!1 &628739696
 GameObject:
   m_ObjectHideFlags: 0
@@ -1083,6 +1110,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f93fdace0e909449baa6be3887c5c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1333883370 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9055254134917629129, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+  m_PrefabInstance: {fileID: 1715070386}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1333883371 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1932665909822814751, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+  m_PrefabInstance: {fileID: 1715070386}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1333883370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1333883374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1333883370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ac7080afa8f93a4ca1522cf7ebcda52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseImage: {fileID: 1333883371}
+  spriteArray:
+  - {fileID: 21300000, guid: 2f68177abd0ad2247a3b6ce8f8f80cc8, type: 3}
+  - {fileID: 21300000, guid: cd69133fa7b411b40b4177f2cfb94b19, type: 3}
+  - {fileID: 21300000, guid: 6abf2a615bbea0643a60f6f338e3d074, type: 3}
+  - {fileID: 21300000, guid: e7a95d7f83a81d84ca0f30bb35f2910d, type: 3}
+  inputSpriteArray:
+  - {fileID: 21300000, guid: c10de07513d0c8f418cd95ca4a51a922, type: 3}
+  - {fileID: 21300000, guid: 1c0e801c932aa25449ff5879cfcac072, type: 3}
+  - {fileID: 21300000, guid: 43d5cf6ee807ab64795e87324b22347d, type: 3}
 --- !u!1 &1454397877
 GameObject:
   m_ObjectHideFlags: 0
@@ -1309,6 +1374,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1932665909822814751, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2f68177abd0ad2247a3b6ce8f8f80cc8, type: 3}
     - target: {fileID: 4884749461122978499, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
       propertyPath: m_Name
       value: GameCanvas
@@ -1425,10 +1494,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9055254134917629129, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: m_Name
+      value: MouseClickTexture
+      objectReference: {fileID: 0}
     - target: {fileID: 9110943071774393888, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
       propertyPath: mouseScore
       value: 
       objectReference: {fileID: 2107734043}
+    - target: {fileID: 9110943071774393888, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: mouseTexture
+      value: 
+      objectReference: {fileID: 1333883374}
     - target: {fileID: 9110943071774393888, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
       propertyPath: keyBoardScore
       value: 
@@ -1460,7 +1537,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4189839540640954916, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 608149767}
+    - targetCorrespondingSourceObject: {fileID: 9055254134917629129, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1333883374}
   m_SourcePrefab: {fileID: 100100000, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
 --- !u!1 &1912938015
 GameObject:
