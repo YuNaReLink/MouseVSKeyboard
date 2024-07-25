@@ -9,10 +9,16 @@ public class GameUIController : MonoBehaviour
     {
         Null = -1,
         Explanation,
+        Go,
         PressKey,
         PressMouseKey,
         Result,
         WinResult,
+        KeyScore,
+        MouseScore,
+        Poase,
+        Retry,
+        Return,
         DataEnd
     }
     [SerializeField]
@@ -92,7 +98,7 @@ public class GameUIController : MonoBehaviour
     {
         moveUIPos = 
             MoveUIPositionData[(int)MoveUIPositionTag.ScreenIn];
-        moveFlag = true;
+        
     }
 
     public void MovePoasePanel(Vector2 movePos)
@@ -103,12 +109,13 @@ public class GameUIController : MonoBehaviour
         if (dis <= 0.1)
         {
             poasePanelTransform.anchoredPosition = movePos;
-            
+            moveFlag = true;
         }
     }
 
     public void MoveExplanationUI(Vector2 movePos)
     {
+        if (!moveFlag) { return; }
         explanationUITransform.anchoredPosition = Vector2.Lerp(explanationUITransform.anchoredPosition,movePos,Time.deltaTime * 5f);
         Vector2 sub = explanationUITransform.anchoredPosition- movePos;
         float dis = sub.magnitude;
@@ -233,6 +240,11 @@ public class GameUIController : MonoBehaviour
             result = "マウスの勝利だ!";
         }
         winResultUIText.text = result;
+    }
+
+    public void ActiveUIObject(int _num,bool _enabled)
+    {
+        uiArray[_num].SetActive(_enabled);
     }
 
     public void ChangeExplanationSprit(int _num)

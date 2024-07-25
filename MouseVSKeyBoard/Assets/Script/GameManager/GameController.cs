@@ -108,7 +108,6 @@ public class GameController : MonoBehaviour
         gameEventTimer = new GameEventTimer();
         gameEventTimer.InitializeAssignTimer();
 
-
         poaseFlag = true;
     }
 
@@ -124,7 +123,7 @@ public class GameController : MonoBehaviour
         //ゲームモードをランダムに設定
         SetGameMode();
         //ゲームが開始するまでのタイマーを設定
-        gameEventTimer.GetTimerGameStartWait().StartTimer(2f);
+        gameEventTimer.GetTimerGameStartWait().StartTimer(5f);
         //勝者・キーボード、マウスのクリックカウント初期化
         victoryPlayer = VictoryPlayer.Null;
         keyCount = 0;
@@ -220,8 +219,13 @@ public class GameController : MonoBehaviour
                         case GameMode.BurstPush:
                         case GameMode.MutualPush:
                             inputEnabled = true;
+                            uIController.ActiveUIObject((int)GameUIController.UITag.Go, true);
                             break;
                     }
+                }
+                else
+                {
+                    
                 }
                 ResultUpdate();
                 break;
@@ -243,6 +247,7 @@ public class GameController : MonoBehaviour
         if(measurementNumber < baseMeasurementValue)
         {
             inputEnabled = true;
+            uIController.ActiveUIObject((int)GameUIController.UITag.Go, true);
         }
     }
 
@@ -279,7 +284,10 @@ public class GameController : MonoBehaviour
                 uIController.ResultUI(victoryPlayer);
                 break;
         }
+        //勝者のUIを表示
         uIController.VictoryCountText(victoryPlayer,keyBoardVictoryCount, mouseVictoryCount);
+        uIController.ActiveUIObject((int)GameUIController.UITag.Go, false);
+        //次の試合を開始・最終結果の処理を待機させるタイマーを起動
         gameEventTimer.GetTimerResetGameIdle().
             StartTimer(MaxResetGameIdleCount);
         gameEventTimer.GetTimerResetGameIdle().OnCompleted += () =>
