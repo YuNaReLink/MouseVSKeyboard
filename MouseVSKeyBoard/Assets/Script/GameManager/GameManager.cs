@@ -14,6 +14,7 @@ public class GameManager
         RapidPress,
         BurstPush,
         MutualPush,
+        TypingAndAim,
         DataEnd
     }
     //それのインスタンス宣言

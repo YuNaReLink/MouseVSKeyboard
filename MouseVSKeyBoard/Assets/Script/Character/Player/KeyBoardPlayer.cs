@@ -19,12 +19,19 @@ public class KeyBoardPlayer : CharacterController
         inputController.SetPushKey(gameMode);
     }
 
+    public void SetTyping(GameManager.GameMode _mode)
+    {
+        gameMode = _mode;
+        inputController.SetTypingKeyCode();
+    }
+
     private void Update()
     {
         switch (GameManager.GameModeTag)
         {
             case GameManager.GameMode.BurstPush:
             case GameManager.GameMode.MutualPush:
+            case GameManager.GameMode.TypingAndAim:
                 //–‚–@w‚Ìˆ—
                 MagicCircleMakeItBigger(gameController.KeyCount);
                 break;
@@ -62,6 +69,9 @@ public class KeyBoardPlayer : CharacterController
             case GameManager.GameMode.MutualPush:
                 MutualClickKeyCommand();
                 break;
+            case GameManager.GameMode.TypingAndAim:
+                TypingCommand();
+                break;
         }
     }
     private void ClickKeyCommand()
@@ -89,6 +99,21 @@ public class KeyBoardPlayer : CharacterController
             inputController.SetPushKey(gameMode);
         }
         gameController.SetViewPushKey(false,InputController.GetKeyTag());
+
+        if (gameController.KeyCount >= gameController.GetMaxCount())
+        {
+            gameController.VictoryPlayer = VictoryPlayer.KeyBoard;
+            MagicShotCommand();
+        }
+    }
+
+    private void TypingCommand()
+    {
+        for(int i = 0; i < InputController.GetPushKeyFlag().Length; i++)
+        {
+            if (!InputController.GetPushKeyFlag()[i]) { return; }
+            gameController.KeyCount = i;
+        }
 
         if (gameController.KeyCount >= gameController.GetMaxCount())
         {

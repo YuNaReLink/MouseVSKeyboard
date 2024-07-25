@@ -62,7 +62,11 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private KeyBoardPlayer          keyBoardPlayer = null;
     [SerializeField]
+    private KeyTyping               keyTyping = null;
+    [SerializeField]
     private MousePlayer             mousePlayer = null;
+    [SerializeField]
+    private AimClick                aimClick = null;
     /// <summary>
     /// 勝者を判定するためのenumのインスタンス生成
     /// </summary>
@@ -103,7 +107,11 @@ public class GameController : MonoBehaviour
         //アタッチ処理
         uIController = GameObject.FindGameObjectWithTag("UIController").GetComponent<GameUIController>();
         keyBoardPlayer = GameObject.FindGameObjectWithTag("KeyBoardPlayer").GetComponent<KeyBoardPlayer>();
+        keyTyping = uIController.gameObject.GetComponentInChildren<KeyTyping>();
+        keyTyping.Initialize();
         mousePlayer = GameObject.FindGameObjectWithTag("MousePlayer").GetComponent<MousePlayer>();
+        aimClick = uIController.gameObject.GetComponentInChildren<AimClick>();
+        aimClick.Initialize();
         //カウントクラスの生成と初期化
         gameEventTimer = new GameEventTimer();
         gameEventTimer.InitializeAssignTimer();
@@ -148,6 +156,12 @@ public class GameController : MonoBehaviour
                 keyBoardPlayer.SetRandomKey(GameModeTag);
                 mousePlayer.SetRandomButton(GameModeTag);
                 SetStartButton();
+                break;
+            case GameMode.TypingAndAim:
+                keyBoardPlayer.SetTyping(GameModeTag);
+                keyTyping.SetTypingKey(InputController.GetKeyCodeArray());
+                aimClick.SetPushButtonSequence();
+                SetTypingAndAimMouseMaxClickCount();
                 break;
         }
         //UIコントローラーの初期化
@@ -221,12 +235,15 @@ public class GameController : MonoBehaviour
                             inputEnabled = true;
                             uIController.ActiveUIObject((int)GameUIController.UITag.Go, true);
                             break;
+                        case GameMode.TypingAndAim:
+                            inputEnabled = true;
+                            uIController.ActiveUIObject((int)GameUIController.UITag.Go, true);
+                            uIController.ActiveUIObject((int)GameUIController.UITag.TypingKey, true);
+                            uIController.ActiveUIObject((int)GameUIController.UITag.AimMouseKey, true);
+                            break;
                     }
                 }
-                else
-                {
-                    
-                }
+                keyTyping.KeyTypingCommand();
                 ResultUpdate();
                 break;
             case GameState.Result:
@@ -261,6 +278,12 @@ public class GameController : MonoBehaviour
         maxCount = 10;
     }
 
+    private void SetTypingAndAimMouseMaxClickCount()
+    {
+        maxCount = 3;
+        keyTyping.InitilaizeKeyTextColor();
+    }
+
     private void ResultText()
     {
         if(victoryPlayer == VictoryPlayer.Null) { return; }
@@ -285,8 +308,7 @@ public class GameController : MonoBehaviour
                 break;
         }
         //勝者のUIを表示
-        uIController.VictoryCountText(victoryPlayer,keyBoardVictoryCount, mouseVictoryCount);
-        uIController.ActiveUIObject((int)GameUIController.UITag.Go, false);
+        ResultUIUpdate();
         //次の試合を開始・最終結果の処理を待機させるタイマーを起動
         gameEventTimer.GetTimerResetGameIdle().
             StartTimer(MaxResetGameIdleCount);
@@ -298,6 +320,14 @@ public class GameController : MonoBehaviour
         };
     }
 
+    private void ResultUIUpdate()
+    {
+        uIController.VictoryCountText(victoryPlayer, keyBoardVictoryCount, mouseVictoryCount);
+        uIController.ActiveUIObject((int)GameUIController.UITag.Go, false);
+        uIController.ActiveUIObject((int)GameUIController.UITag.TypingKey, false);
+        uIController.ActiveUIObject((int)GameUIController.UITag.AimMouseKey, false);
+    }
+
     private void DrawResult()
     {
         switch (GameModeTag)
@@ -305,6 +335,7 @@ public class GameController : MonoBehaviour
             case GameMode.RapidPress:
             case GameMode.BurstPush:
             case GameMode.MutualPush:
+            case GameMode.TypingAndAim:
                 bool keyBoardFire = keyBoardPlayer.GetMagicShot().Fire;
                 bool mouseFire = mousePlayer.GetMagicShot().Fire;
                 if(keyBoardFire&&mouseFire)

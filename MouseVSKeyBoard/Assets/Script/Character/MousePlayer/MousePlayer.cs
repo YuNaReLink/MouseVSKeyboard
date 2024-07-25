@@ -27,6 +27,7 @@ public class MousePlayer : CharacterController
         {
             case GameManager.GameMode.BurstPush:
             case GameManager.GameMode.MutualPush:
+            case GameManager.GameMode.TypingAndAim:
                 //–‚–@w‚Ìˆ—
                 MagicCircleMakeItBigger(gameController.ClickCount);
                 break;
@@ -42,7 +43,7 @@ public class MousePlayer : CharacterController
         }
     }
 
-    private void MagaicShotCommand()
+    private void MagicShotCommand()
     {
         magicShot.MagicFire(180);
         GameController.Preempt = true;
@@ -63,6 +64,9 @@ public class MousePlayer : CharacterController
             case GameManager.GameMode.MutualPush:
                 MutualClickMouseCommand();
                 break;
+            case GameManager.GameMode.TypingAndAim:
+                AimClickMouseCommand();
+                break;
         }
     }
 
@@ -78,7 +82,7 @@ public class MousePlayer : CharacterController
         if(gameController.ClickCount >= gameController.GetMaxCount())
         {
             gameController.VictoryPlayer = VictoryPlayer.Mouse;
-            MagaicShotCommand();
+            MagicShotCommand();
         }
     }
 
@@ -95,7 +99,27 @@ public class MousePlayer : CharacterController
         if (gameController.ClickCount >= gameController.GetMaxCount())
         {
             gameController.VictoryPlayer = VictoryPlayer.Mouse;
-            MagaicShotCommand();
+            MagicShotCommand();
+        }
+    }
+
+    private void AimClickMouseCommand()
+    {
+        gameController.SetViewPushMouseButton(false, MouseCode.Left);
+        if (Input.GetMouseButtonDown(0))
+        {
+            gameController.SetViewPushMouseButton(true, MouseCode.Left);
+        }
+        for (int i = 0; i < InputController.GetPushClickFlag().Length; i++)
+        {
+            if (!InputController.GetPushClickFlag()[i]) { return; }
+            gameController.ClickCount = i + 1;
+        }
+
+        if (gameController.ClickCount >= gameController.GetMaxCount())
+        {
+            gameController.VictoryPlayer = VictoryPlayer.Mouse;
+            MagicShotCommand();
         }
     }
 
@@ -106,7 +130,7 @@ public class MousePlayer : CharacterController
         {
             gameController.SetViewPushMouseButton(true, InputController.GetMouseCode());
             gameController.VictoryPlayer = VictoryPlayer.Mouse;
-            MagaicShotCommand();
+            MagicShotCommand();
         }
     }
 }
