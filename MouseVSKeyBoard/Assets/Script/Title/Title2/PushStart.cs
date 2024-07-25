@@ -21,6 +21,9 @@ public class PushStart : MonoBehaviour
 
     private bool activeTimer = false;
 
+    [SerializeField]
+    private bool Stop = false;
+
     private void Awake()
     {
         nextScene = GetComponent<NextScene>();
@@ -33,6 +36,7 @@ public class PushStart : MonoBehaviour
     }
     private void Update()
     {
+        TitleTimerStop();
         ActiveTimer();
         if (activeTimer)
         {
@@ -41,21 +45,42 @@ public class PushStart : MonoBehaviour
         }
     }
     private void ActiveTimer( )   {
-        currentTime += Time.deltaTime;
-        startText.enabled = active;
-        if(overTime < currentTime)
+        if (!Stop)
         {
-            active = !active;
-            currentTime = 0;
-            activeTimer = true;
+            currentTime += Time.deltaTime;
+            startText.enabled = active;
+            if (overTime < currentTime)
+            {
+                active = !active;
+                currentTime = 0;
+                activeTimer = true;
+            }
         }
         
     }
-    public void PushToStart()
+    private void PushToStart()
     {
-        if (Input.anyKey)
+        if(Input.GetKeyUp(KeyCode.Escape)|| Input.GetKeyDown(KeyCode.Escape)|| Input.GetKey(KeyCode.Escape))
+        {
+        }
+        else if (Input.anyKey && !Stop)
         {
             nextScene.GoScene();
+        }
+    }
+    public void TitleTimerStop()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Stop = !Stop;
+            if (Stop)
+            {
+                startText.enabled = false;
+            }
+            else if (!Stop)
+            {
+                startText.enabled = true;
+            }
         }
     }
 }

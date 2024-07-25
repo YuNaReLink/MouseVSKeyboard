@@ -906,7 +906,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Press Any Key Push to Start
+  m_Text: Press AnyKey To Start
 --- !u!222 &1409865029
 CanvasRenderer:
   m_ObjectHideFlags: 0
