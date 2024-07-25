@@ -641,7 +641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc5d603a6ebab7443b9e470c59ee6ad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextScene: 0
+  nextScene: 1
 --- !u!114 &1580061327
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -698,7 +698,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startText: {fileID: 1580061327}
   overTime: 3
-  Stop: 0
 --- !u!1 &1927983020
 GameObject:
   m_ObjectHideFlags: 0
