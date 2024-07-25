@@ -18,6 +18,7 @@ public class GameUIController : MonoBehaviour
         WinResult,
         KeyScore,
         MouseScore,
+        GameExplanation,
         Poase,
         Retry,
         Return,
@@ -72,6 +73,7 @@ public class GameUIController : MonoBehaviour
 
     [SerializeField]
     private GameButtonController gameButtonController = null;
+    public GameButtonController GetGameButtonController() { return gameButtonController; }
     private void Awake()
     {
         int count = transform.childCount;

@@ -93,7 +93,12 @@ public class GameController : MonoBehaviour
     /// <summary>
     /// ゲーム開始時、ゲームの処理を止めるフラグ
     /// </summary>
-    private bool                    poaseFlag = true;
+    private bool                    gameExplanationFlag = true;
+    
+    /// <summary>
+    /// ポーズを切り替えるフラグ
+    /// </summary>
+    private bool poaseFlag = false;
     private void Start()
     {
         //ゲームシーンスタート時の初期化処理
@@ -116,7 +121,7 @@ public class GameController : MonoBehaviour
         gameEventTimer = new GameEventTimer();
         gameEventTimer.InitializeAssignTimer();
 
-        poaseFlag = true;
+        gameExplanationFlag = true;
     }
 
     /// <summary>
@@ -183,21 +188,22 @@ public class GameController : MonoBehaviour
 
     private bool PoaseStop()
     {
-        if (!poaseFlag) { return false; }
+        if (!gameExplanationFlag) { return false; }
         if (InputController.AllPushKey() || InputController.AllPushMouseKey())
         {
-            poaseFlag = false;
+            gameExplanationFlag = false;
         }
         return true;
     }
 
     void Update()
     {
+        PoaseEventUpdate();
+        if(Time.timeScale <= 0) { return; }
         if (PoaseStop()) { return; }
         MoveUI();
         //タイマーの更新
         gameEventTimer.TimerUpdate();
-
         GameEventUpdate();
         
     }
@@ -212,6 +218,30 @@ public class GameController : MonoBehaviour
         if(GameStateTag == GameState.Result)
         {
             uIController.MoveWinResultUI(MoveUIPositionData[(int)MoveUIPositionTag.ScreenIn]);
+        }
+    }
+
+    private void PoaseEventUpdate()
+    {
+        if (inputEnabled) { return; }
+        if(GameStateTag == GameState.Result) { return; }
+        if (InputController.IsPoaseKey())
+        {
+            switch (GameStateTag)
+            {
+                case GameState.Game:
+                    GameStateTag = GameState.Poase;
+                    uIController.ActiveUIObject((int)GameUIController.UITag.Poase, true);
+                    uIController.GetGameButtonController().ActiveButton(true);
+                    Time.timeScale = 0;
+                    break;
+                case GameState.Poase:
+                    GameStateTag = GameState.Game;
+                    uIController.ActiveUIObject((int)GameUIController.UITag.Poase, false);
+                    uIController.GetGameButtonController().ActiveButton(false);
+                    Time.timeScale = 1f;
+                    break;
+            }
         }
     }
 

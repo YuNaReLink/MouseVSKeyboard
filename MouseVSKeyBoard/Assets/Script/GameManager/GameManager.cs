@@ -28,6 +28,7 @@ public class GameManager
         Null = -1,
         Title,
         Game,
+        Poase,
         Result,
         DataEnd
     }

@@ -160,4 +160,9 @@ public class InputController
 
     private static bool[] pushClickFlag = new bool[3];
     public static bool[] GetPushClickFlag() { return pushClickFlag; }
+
+    /// <summary>
+    /// ポーズをON・OFFするキー
+    /// </summary>
+    public static bool IsPoaseKey() { return Input.GetKeyDown(KeyCode.Tab); }
 }

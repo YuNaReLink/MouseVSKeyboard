@@ -24,6 +24,7 @@ public class GameButtonController : MonoBehaviour
 
     public void ChangeScene(string sceneName)
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(sceneName);
     }
 }
