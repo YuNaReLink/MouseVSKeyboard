@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static GameManager;
 
+//勝者の結果を出すためのenumクラス
 public enum VictoryPlayer
 {
     Null = -1,
@@ -14,154 +16,230 @@ public enum VictoryPlayer
 public class GameController : MonoBehaviour
 {
     [SerializeField]
-    private GameUIController uIController = null;
+    private GameUIController        uIController = null;
+    /// <summary>
+    /// 早押しの間隔をランダムで生成する変数
+    /// 0:ランダムの最大値(この数値以下なら早押し開始)
+    /// 1:ランダムの最大値を代入する入れ物
+    /// 2:ランダムの最大値よりも小さいか計測する変数
+    /// </summary>
+    [SerializeField]
+    private const int               measurementMaxValue = 1;
+    [SerializeField]
+    private int                     baseMeasurementValue = measurementMaxValue;
+    [SerializeField]
+    private int                     measurementNumber = 0;
+    /// <summary>
+    /// プレイヤーが入力できるか決めるフラグ
+    /// </summary>
+    [SerializeField]
+    private static bool             inputEnabled = false;
+    public static bool              IsInputEnabledFlag() {  return inputEnabled; }
+    /// <summary>
+    /// 先に魔法を放った勝者か判定するためのフラグ
+    /// </summary>
+    [SerializeField]
+    private static bool             preempt = false;
+    public static bool              Preempt {  get { return preempt; } set { preempt = value; } }
+    /// <summary>
+    /// 連打・交互押しの最大クリックカウントを決める変数
+    /// maxCount:クリックの最大値(ランダム生成※初期値は10)
+    /// keyCount:キーボードのクリックカウントを計測する変数
+    /// clickCount:マウスのクリックカウントを計測する変数
+    /// </summary>
+    [SerializeField]
+    private int                     maxCount = 10;
+    public int                      GetMaxCount() {  return maxCount; }
+    [SerializeField]
+    private int                     keyCount = 0;
+    public int                      KeyCount {  get { return keyCount; } set { keyCount = value; } }
+    [SerializeField]
+    private int                     clickCount = 0;
+    public int                      ClickCount { get {return clickCount; } set { clickCount = value; } }
+    /// <summary>
+    /// キーボードとマウスで操作するプレイヤーのインスタンス生成
+    /// </summary>
+    [SerializeField]
+    private KeyBoardPlayer          keyBoardPlayer = null;
+    [SerializeField]
+    private MousePlayer             mousePlayer = null;
+    /// <summary>
+    /// 勝者を判定するためのenumのインスタンス生成
+    /// </summary>
+    private VictoryPlayer           victoryPlayer = VictoryPlayer.Null;
+    public VictoryPlayer            VictoryPlayer { get { return victoryPlayer; } set { victoryPlayer = value; } }
+    /// <summary>
+    /// キーボードとマウスの勝利回数を計測する変数関連
+    /// maxVictoryCount:勝利の最大回数
+    /// keyBoardVictoryCount:キーボードの勝利計測回数変数
+    /// mouseVictoryCount:マウスの勝利計測回数変数
+    /// </summary>
+    [SerializeField]
+    private const int               maxVictoryCount = 3;
+    private int                     keyBoardVictoryCount = 0;
+    public int                      GetKeyBoardVictoryCount() { return keyBoardVictoryCount; }
+    private int                     mouseVictoryCount = 0;
+    public int                      GetMouseVictoryCount() { return mouseVictoryCount; }
+    /// <summary>
+    /// ゲームコントローラーで使うタイマーを一式まとめたクラスのインスタンス生成
+    /// </summary>
+    private GameEventTimer          gameEventTimer = null;
+    public GameEventTimer           GetGameEventTimer() { return gameEventTimer; }
 
-    [SerializeField]
-    private const int baseMeasurementValue = 1;
-    [SerializeField]
-    private int measurementNumber = 0;
-
-    [SerializeField]
-    private static bool inputEnabled = false;
-    public static bool IsRapidPressFlag() {  return inputEnabled; }
-
-    [SerializeField]
-    private static bool preempt = false;
-    public static bool Preempt {  get { return preempt; } set { preempt = value; } }
-    [SerializeField]
-    private int maxCount = 10;
-    public int GetMaxCount() {  return maxCount; }
-    [SerializeField]
-    private int keyCount = 0;
-    public int KeyCount {  get { return keyCount; } set { keyCount = value; } }
-    [SerializeField]
-    private int clickCount = 0;
-    public int ClickCount { get {return clickCount; } set { clickCount = value; } }
-    [SerializeField]
-    private KeyBoardPlayer keyBoardPlayer = null;
-    [SerializeField]
-    private MousePlayer mousePlayer = null;
-    private VictoryPlayer victoryPlayer = VictoryPlayer.Null;
-    public VictoryPlayer VictoryPlayer { get { return victoryPlayer; } set { victoryPlayer = value; } }
-    private int keyBoardVictoryCount = 0;
-    public int GetKeyBoardVictoryCount() { return keyBoardVictoryCount; }
-    private int mouseVictoryCount = 0;
-    public int GetMouseVictoryCount() { return mouseVictoryCount; }
-    private GameEventTimer gameEventTimer = null;
-    public GameEventTimer GetGameEventTimer() { return gameEventTimer; }
-
-    private bool poaseFlag = true;
+    /// <summary>
+    /// ゲーム開始時、ゲームの処理を止めるフラグ
+    /// </summary>
+    private bool                    poaseFlag = true;
     private void Start()
     {
+        //ゲームシーンスタート時の初期化処理
         Initialize();
-
+        //試合間に更新する初期化処理
         InitializeGameSetting();
     }
 
     private void Initialize()
     {
+        //アタッチ処理
         uIController = GameObject.FindGameObjectWithTag("UIController").GetComponent<GameUIController>();
         keyBoardPlayer = GameObject.FindGameObjectWithTag("KeyBoardPlayer").GetComponent<KeyBoardPlayer>();
         mousePlayer = GameObject.FindGameObjectWithTag("MousePlayer").GetComponent<MousePlayer>();
-
+        //カウントクラスの生成と初期化
         gameEventTimer = new GameEventTimer();
         gameEventTimer.InitializeAssignTimer();
+
+
+        poaseFlag = true;
     }
 
+    /// <summary>
+    ///試合間に更新する初期化処理
+    ///一度勝敗が決まった後に呼び出す処理
+    ///もう一度試合を始めるための初期化
+    /// </summary>
     private void InitializeGameSetting()
     {
         //現在の状態を設定
-        GameManager.GameStateTag = GameManager.GameState.Game;
+        GameStateTag = GameState.Game;
         //ゲームモードをランダムに設定
         SetGameMode();
         //ゲームが開始するまでのタイマーを設定
         gameEventTimer.GetTimerGameStartWait().StartTimer(2f);
-        //初期化
+        //勝者・キーボード、マウスのクリックカウント初期化
         victoryPlayer = VictoryPlayer.Null;
         keyCount = 0;
         clickCount = 0;
 
         inputEnabled = false;
         preempt = false;
-        
+        //プレイヤーの初期化
         mousePlayer.InitializePosition();
         keyBoardPlayer.InitializePosition();
-
-        uIController.SetResultUI(victoryPlayer,new Vector2(0,2000));
-
-        switch (GameManager.GameModeTag)
+        //上で設定したモードごとに初期化処理
+        switch (GameModeTag)
         {
-            case GameManager.GameMode.RapidPress:
-                keyBoardPlayer.SetRandomKey(GameManager.GameModeTag);
-                mousePlayer.SetRandomButton(GameManager.GameModeTag);
+            case GameMode.RapidPress:
+                keyBoardPlayer.SetRandomKey(GameModeTag);
+                mousePlayer.SetRandomButton(GameModeTag);
                 break;
-            case GameManager.GameMode.BurstPush:
+            case GameMode.BurstPush:
                 SetMaxKeyAndMouseClickCount();
                 break;
-            case GameManager.GameMode.MutualPush:
-                keyBoardPlayer.SetRandomKey(GameManager.GameModeTag);
-                mousePlayer.SetRandomButton(GameManager.GameModeTag);
+            case GameMode.MutualPush:
+                keyBoardPlayer.SetRandomKey(GameModeTag);
+                mousePlayer.SetRandomButton(GameModeTag);
                 SetStartButton();
                 break;
         }
-        uIController.ChangeExplanationSprit((int)GameManager.GameModeTag);
+        //UIコントローラーの初期化
+        uIController.SetResultUI(victoryPlayer,new Vector2(0,2000));
+        uIController.ChangeExplanationSprit((int)GameModeTag);
     }
     private void SetGameMode()
     {
-        int modeValue = Random.Range(0, (int)GameManager.GameMode.DataEnd);
-        if(GameManager.GameModeTag == (GameManager.GameMode)modeValue)
+        //GameModeのenumからランダムに整数を取得
+        int modeValue = Random.Range(0, (int)GameMode.DataEnd);
+        //前回と同じモードなら違うモードになるまで繰り返す
+        if(GameModeTag == (GameMode)modeValue)
         {
             SetGameMode();
         }
-        GameManager.GameModeTag = (GameManager.GameMode)modeValue;
+        //新しいモードを代入
+        GameModeTag = (GameMode)modeValue;
     }
 
-    void Update()
+    private bool PoaseStop()
     {
+        if (!poaseFlag) { return false; }
         if (InputController.AllPushKey() || InputController.AllPushMouseKey())
         {
             poaseFlag = false;
         }
-        if (poaseFlag) { return; }
+        return true;
+    }
+
+    void Update()
+    {
+        if (PoaseStop()) { return; }
         MoveUI();
+        //タイマーの更新
         gameEventTimer.TimerUpdate();
-        
 
-        if (gameEventTimer.GetTimerGameStartWait().IsEnabled()) { return; }
-        if(GameManager.GameStateTag == GameManager.GameState.Result) { return; }
-
-        switch (GameManager.GameModeTag)
-        {
-            case GameManager.GameMode.RapidPress:
-                if (!inputEnabled)
-                {
-                    SetRandomNumber();
-                }
-                break;
-            case GameManager.GameMode.BurstPush:
-            case GameManager.GameMode.MutualPush:
-                inputEnabled = true;
-                break;
-        }
-        if (gameEventTimer.GetTimerResetGameIdle().IsEnabled()) { return; }
-        if(gameEventTimer.GetTimerResultOutputWait().IsEnabled()) { return; }
-        ResultText();
+        GameEventUpdate();
         
     }
 
+    /// <summary>
+    /// キャンバス内にあるUIを動かす関数
+    /// </summary>
     private void MoveUI()
     {
-        uIController.MovePoasePanel(new Vector2(0,1080));
+        uIController.MovePoasePanel(MoveUIPositionData[(int)MoveUIPositionTag.PoaseScreenOut]);
         uIController.MoveExplanationUI(uIController.MoveUIPos);
-        if(GameManager.GameStateTag == GameManager.GameState.Result)
+        if(GameStateTag == GameState.Result)
         {
-            uIController.MoveWinResultUI(new Vector2(0, 370));
+            uIController.MoveWinResultUI(MoveUIPositionData[(int)MoveUIPositionTag.ScreenIn]);
         }
+    }
+
+    private void GameEventUpdate()
+    {
+        //ゲームスタート時に処理を待たせるタイマー
+        if (gameEventTimer.GetTimerGameStartWait().IsEnabled()) { return; }
+        //ゲーム状態により処理を変更
+        switch (GameStateTag)
+        {
+            case GameState.Game:
+                if (!inputEnabled)
+                {
+                    switch (GameModeTag)
+                    {
+                        case GameMode.RapidPress:
+                            SetRandomNumber();
+                            break;
+                        case GameMode.BurstPush:
+                        case GameMode.MutualPush:
+                            inputEnabled = true;
+                            break;
+                    }
+                }
+                ResultUpdate();
+                break;
+            case GameState.Result:
+                break;
+        }
+    }
+
+    private void ResultUpdate()
+    {
+        if (gameEventTimer.GetTimerResetGameIdle().IsEnabled()) { return; }
+        if (gameEventTimer.GetTimerResultOutputWait().IsEnabled()) { return; }
+        ResultText();
     }
 
     private void SetRandomNumber()
     {
-        measurementNumber = Random.Range(0, 100);
+        measurementNumber = Random.Range(0, MaxMeasurementNumber);
         if(measurementNumber < baseMeasurementValue)
         {
             inputEnabled = true;
@@ -181,27 +259,29 @@ public class GameController : MonoBehaviour
     private void ResultText()
     {
         if(victoryPlayer == VictoryPlayer.Null) { return; }
+        //引き分け処理
         DrawResult();
-
+        //最終勝敗判定
         switch (victoryPlayer)
         {
             case VictoryPlayer.KeyBoard:
-                uIController.SetResultUI(victoryPlayer,new Vector2(-550, 200));
+                uIController.SetResultUI(victoryPlayer, MoveUIPositionData[(int)MoveUIPositionTag.KeyBoardPlayer]);
                 uIController.ResultUI(victoryPlayer);
                 keyBoardVictoryCount++;
                 break;
             case VictoryPlayer.Mouse:
-                uIController.SetResultUI(victoryPlayer,new Vector2(550, 200));
+                uIController.SetResultUI(victoryPlayer, MoveUIPositionData[(int)MoveUIPositionTag.MousePlayer]);
                 uIController.ResultUI(victoryPlayer);
                 mouseVictoryCount++;
                 break;
             case VictoryPlayer.Draw:
-                uIController.SetResultUI(victoryPlayer,new Vector2(0, 200));
+                uIController.SetResultUI(victoryPlayer, MoveUIPositionData[(int)MoveUIPositionTag.Drow]);
                 uIController.ResultUI(victoryPlayer);
                 break;
         }
         uIController.VictoryCountText(victoryPlayer,keyBoardVictoryCount, mouseVictoryCount);
-        gameEventTimer.GetTimerResetGameIdle().StartTimer(5f);
+        gameEventTimer.GetTimerResetGameIdle().
+            StartTimer(MaxResetGameIdleCount);
         gameEventTimer.GetTimerResetGameIdle().OnCompleted += () =>
         {
             if (WinningResults()) { return; }
@@ -212,11 +292,11 @@ public class GameController : MonoBehaviour
 
     private void DrawResult()
     {
-        switch (GameManager.GameModeTag)
+        switch (GameModeTag)
         {
-            case GameManager.GameMode.RapidPress:
-            case GameManager.GameMode.BurstPush:
-            case GameManager.GameMode.MutualPush:
+            case GameMode.RapidPress:
+            case GameMode.BurstPush:
+            case GameMode.MutualPush:
                 bool keyBoardFire = keyBoardPlayer.GetMagicShot().Fire;
                 bool mouseFire = mousePlayer.GetMagicShot().Fire;
                 if(keyBoardFire&&mouseFire)
@@ -232,7 +312,7 @@ public class GameController : MonoBehaviour
         if (gameEventTimer.GetTimerKeyClickUICoolDown().IsEnabled()) { return; }
         if (push)
         {
-            gameEventTimer.GetTimerKeyClickUICoolDown().StartTimer(0.05f);
+            gameEventTimer.GetTimerKeyClickUICoolDown().StartTimer(MaxClickUICoolDown);
             uIController.GetKeyBoardTexture().PushChangeTexture(_key);
         }
         else
@@ -245,7 +325,7 @@ public class GameController : MonoBehaviour
         if (gameEventTimer.GetTimerMouseClickUICoolDown().IsEnabled()) { return; }
         if (push)
         {
-            gameEventTimer.GetTimerMouseClickUICoolDown().StartTimer(0.05f);
+            gameEventTimer.GetTimerMouseClickUICoolDown().StartTimer(MaxClickUICoolDown);
             uIController.GetMouseTexture().PushChangeTexture((int)code);
         }
         else
@@ -256,14 +336,15 @@ public class GameController : MonoBehaviour
 
     private bool WinningResults()
     {
-        bool noWin = keyBoardVictoryCount != 3 && mouseVictoryCount != 3;
+        bool noWin = keyBoardVictoryCount != maxVictoryCount&&
+                     mouseVictoryCount != maxVictoryCount;
         if (noWin) { return false; }
-        GameManager.GameStateTag = GameManager.GameState.Result;
-        if (keyBoardVictoryCount >= 3)
+        GameStateTag = GameState.Result;
+        if (keyBoardVictoryCount >= maxVictoryCount)
         {
             victoryPlayer = VictoryPlayer.KeyBoard;
         }
-        else if (mouseVictoryCount >= 3)
+        else if (mouseVictoryCount >= maxVictoryCount)
         {
             victoryPlayer = VictoryPlayer.Mouse;
         }

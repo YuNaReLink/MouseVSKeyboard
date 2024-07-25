@@ -49,7 +49,7 @@ public class KeyBoardPlayer : CharacterController
 
     private void ModeCommand()
     {
-        if (!GameController.IsRapidPressFlag()) { return; }
+        if (!GameController.IsInputEnabledFlag()) { return; }
         if (GameController.Preempt && !gameController.GetGameEventTimer().GetTimerResultOutputWait().IsEnabled()) { return; }
         switch (GameManager.GameModeTag)
         {

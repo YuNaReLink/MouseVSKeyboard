@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static GameManager;
 
 public class GameUIController : MonoBehaviour
 {
@@ -71,7 +72,8 @@ public class GameUIController : MonoBehaviour
             uiArray.Add(transform.GetChild(i).gameObject);
         }
         winResultUIText = winResultUITransform.GetComponentInChildren<Text>();
-        winResultUITransform.anchoredPosition = new Vector2(0, 750);
+        winResultUITransform.anchoredPosition = 
+            MoveUIPositionData[(int)MoveUIPositionTag.ScreenOut];
         InitilaizeGameUISetting();
 
         baseExplanationPosition = explanationUITransform.transform.position;
@@ -88,7 +90,8 @@ public class GameUIController : MonoBehaviour
     
     public void InitilaizeGameUISetting()
     {
-        moveUIPos = new Vector2(0, 370);
+        moveUIPos = 
+            MoveUIPositionData[(int)MoveUIPositionTag.ScreenIn];
         moveFlag = true;
     }
 
@@ -190,7 +193,8 @@ public class GameUIController : MonoBehaviour
                 result = "引き分け！";
                 break;
         }
-        moveUIPos = new Vector2(0, 750);
+        moveUIPos = 
+            MoveUIPositionData[(int)MoveUIPositionTag.ScreenOut];
         keyBoardTexture.ChangeTexture(0);
         mouseTexture.ChangeTexture(0);
     }
