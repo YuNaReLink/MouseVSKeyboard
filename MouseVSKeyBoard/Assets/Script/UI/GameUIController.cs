@@ -50,6 +50,8 @@ public class GameUIController : MonoBehaviour
     private RectTransform resultUITransform = null;
     [SerializeField]
     private Image resultImage = null;
+    [SerializeField]
+    private List<Sprite> resultImageArray = new List<Sprite>();
 
     [SerializeField]
     private RectTransform winResultUITransform = null;
@@ -126,8 +128,16 @@ public class GameUIController : MonoBehaviour
         }
     }
 
-    public void SetResultUI(Vector2 pos)
+    public void SetResultUI(VictoryPlayer _player,Vector2 pos)
     {
+        if(_player == VictoryPlayer.Draw)
+        {
+            resultImage.sprite = resultImageArray[1];
+        }
+        else
+        {
+            resultImage.sprite = resultImageArray[0];
+        }
         resultUITransform.anchoredPosition = pos;
     }
 

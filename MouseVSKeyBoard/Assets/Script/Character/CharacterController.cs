@@ -20,6 +20,11 @@ public class CharacterController : MonoBehaviour
     private Rigidbody2D rigidbody2D = null;
 
     [SerializeField]
+    private float impactX = 500f;
+    [SerializeField]
+    private float impactY = 1000f;
+
+    [SerializeField]
     protected MagicShot magicShot = null;
     public MagicShot GetMagicShot() { return magicShot; }
 
@@ -32,6 +37,8 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     protected List<Sprite> sprites = new List<Sprite>();
     public List<Sprite> GetSprites() { return sprites; }
+    [SerializeField]
+    protected bool loseFlag = false;
 
     [SerializeField]
     protected GameManager.GameMode gameMode = GameManager.GameMode.Null;
@@ -61,6 +68,7 @@ public class CharacterController : MonoBehaviour
         transform.rotation = Quaternion.Euler(baseRotate);
         rigidbody2D.velocity = Vector2.zero;
         magicCircle.transform.localScale = Vector3.zero;
+        loseFlag = false;
     }
 
     public void MagicCircleMakeItBigger(int _count)
@@ -76,16 +84,25 @@ public class CharacterController : MonoBehaviour
         magicCircle.localScale = scale;
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected void ChangeAnimation()
     {
-        if(other.tag != "Damage") { return; }
-        other.isTrigger = false;
+        if (loseFlag)
+        {
+            if (sprites[2] == null) { return; }
+            spriteRenderer.sprite = sprites[2];
+        }
+        else if (magicShot.Fire)
+        {
+            if (sprites[1] == null) { return; }
+            spriteRenderer.sprite = sprites[1];
+        }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.collider.tag != "Damage") { return; }
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        rb.AddForce(collision.rigidbody.velocity);
+        if (collision.tag != "Damage") { return; }
+        Rigidbody2D rb2D = collision.GetComponent<Rigidbody2D>();
+        rigidbody2D.AddForce(new Vector2(rb2D.velocity.x * impactX,impactY));
+        loseFlag = true;
     }
 }

@@ -289,7 +289,7 @@ SpriteRenderer:
   m_SortingLayerID: -112512595
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 500dc83544aa400409656d9c36aebefd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: afc22b7094f0b19448a485184f2eb2bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -721,12 +721,16 @@ MonoBehaviour:
   basePosition: {x: 0, y: 0, z: 0}
   baseRotate: {x: 0, y: 0, z: 0}
   rigidbody2D: {fileID: 0}
+  impactX: 50
+  impactY: 2000
   magicShot: {fileID: 0}
   magicCircle: {fileID: 1454397878}
   spriteRenderer: {fileID: 0}
   sprites:
   - {fileID: 21300000, guid: bd730d880f8e40d40be19ee4187fd169, type: 3}
   - {fileID: 21300000, guid: 220d298857701634ea97b80b0bdb172e, type: 3}
+  - {fileID: 21300000, guid: 62bd759446052604fa060386704c24f9, type: 3}
+  loseFlag: 0
   gameMode: -1
 --- !u!50 &628739701
 Rigidbody2D:
@@ -832,12 +836,16 @@ MonoBehaviour:
   basePosition: {x: 0, y: 0, z: 0}
   baseRotate: {x: 0, y: 0, z: 0}
   rigidbody2D: {fileID: 0}
+  impactX: 50
+  impactY: 2000
   magicShot: {fileID: 0}
   magicCircle: {fileID: 868769611}
   spriteRenderer: {fileID: 0}
   sprites:
   - {fileID: 21300000, guid: c348021c0709a9c4887e8d6866d356ca, type: 3}
   - {fileID: 21300000, guid: bb00083ddf1b91a47a040bdb375ba8df, type: 3}
+  - {fileID: 21300000, guid: 064f20c13fd53ce4abac9c6ea7483bfc, type: 3}
+  loseFlag: 0
   gameMode: -1
 --- !u!61 &793565326
 BoxCollider2D:
@@ -1297,6 +1305,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1795254942121287449, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4884749461122978499, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
       propertyPath: m_Name
       value: GameCanvas
@@ -1426,13 +1438,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2139370976}
     - target: {fileID: 9110943071774393888, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: resultImageArray.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9110943071774393888, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: resultImageArray.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 36bbedc39c2430548ba1dc58b8f89ed8, type: 3}
+    - target: {fileID: 9110943071774393888, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
+      propertyPath: resultImageArray.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 682eae34ea62b0744b7ee3d7447e0dd1, type: 3}
+    - target: {fileID: 9110943071774393888, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
       propertyPath: explanationSprite2DImages.Array.size
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9110943071774393888, guid: 0dc4543ac57a56e4483d497f46358a77, type: 3}
       propertyPath: explanationSprite2DImages.Array.data[2]
       value: 
-      objectReference: {fileID: 21300000, guid: 7b956ffe57cf7bd49b370f5558f9b381, type: 3}
+      objectReference: {fileID: 21300000, guid: 2cb3ae41949fd984c832afdc5993e310, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1590,6 +1614,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7943978622736860333, guid: f521fbf32ce670341bdb69f5cdb59ec8, type: 3}
+      propertyPath: magicBall
+      value: 
+      objectReference: {fileID: 2441482159410659298, guid: 716459bd823136e48a4350f82f88737d, type: 3}
     - target: {fileID: 7943978622736860333, guid: f521fbf32ce670341bdb69f5cdb59ec8, type: 3}
       propertyPath: magicSpeed
       value: 2500

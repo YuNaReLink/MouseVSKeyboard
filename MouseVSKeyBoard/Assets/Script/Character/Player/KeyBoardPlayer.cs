@@ -29,23 +29,28 @@ public class KeyBoardPlayer : CharacterController
                 MagicCircleMakeItBigger(gameController.KeyCount);
                 break;
         }
+        ChangeAnimation();
 
         //–‚–@‚ð”­ŽË‚·‚éˆ—
         if (magicShot.Fire) { return; }
-        if (gameController.VictoryPlayer == VictoryPlayer.KeyBoard)
-        {
-            spriteRenderer.sprite = sprites[1];
-            magicShot.MagicFire(0);
-        }
         //ƒ‚[ƒh•Ê‚Ì“ü—Íˆ—
         ModeCommand();
+        if (!gameController.GetGameEventTimer().GetTimerResultOutputWait().IsEnabled()&& !GameController.Preempt)
+        {
+            gameController.GetGameEventTimer().GetTimerResultOutputWait().StartTimer(0.1f);
+        }
+    }
 
+    private void MagicShotCommand()
+    {
+        magicShot.MagicFire(0);
+        GameController.Preempt = true;
     }
 
     private void ModeCommand()
     {
         if (!GameController.IsRapidPressFlag()) { return; }
-        if (gameController.VictoryPlayer != VictoryPlayer.Null) { return; }
+        if (GameController.Preempt && !gameController.GetGameEventTimer().GetTimerResultOutputWait().IsEnabled()) { return; }
         switch (GameManager.GameModeTag)
         {
             case GameManager.GameMode.RapidPress:
@@ -70,6 +75,7 @@ public class KeyBoardPlayer : CharacterController
         if (gameController.KeyCount >= gameController.GetMaxCount())
         {
             gameController.VictoryPlayer = VictoryPlayer.KeyBoard;
+            MagicShotCommand();
         }
     }
 
@@ -85,6 +91,7 @@ public class KeyBoardPlayer : CharacterController
         if (gameController.KeyCount >= gameController.GetMaxCount())
         {
             gameController.VictoryPlayer = VictoryPlayer.KeyBoard;
+            MagicShotCommand();
         }
     }
 
@@ -94,6 +101,7 @@ public class KeyBoardPlayer : CharacterController
         if (inputController.RandomGetKey())
         {
             gameController.VictoryPlayer = VictoryPlayer.KeyBoard;
+            MagicShotCommand();
         }
     }
 }

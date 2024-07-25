@@ -31,21 +31,27 @@ public class MousePlayer : CharacterController
                 MagicCircleMakeItBigger(gameController.ClickCount);
                 break;
         }
+        ChangeAnimation();
 
         if (magicShot.Fire) { return; }
-        if (gameController.VictoryPlayer == VictoryPlayer.Mouse)
-        {
-            spriteRenderer.sprite = sprites[1];
-            magicShot.MagicFire(180);
-        }
         //ƒ‚[ƒh•Ê‚Ì“ü—Íˆ—
         ModeCommand();
+        if (!gameController.GetGameEventTimer().GetTimerResultOutputWait().IsEnabled() && !GameController.Preempt)
+        {
+            gameController.GetGameEventTimer().GetTimerResultOutputWait().StartTimer(0.1f);
+        }
+    }
+
+    private void MagaicShotCommand()
+    {
+        magicShot.MagicFire(180);
+        GameController.Preempt = true;
     }
 
     private void ModeCommand()
     {
         if (!GameController.IsRapidPressFlag()) { return; }
-        if (gameController.VictoryPlayer != VictoryPlayer.Null) { return; }
+        if (GameController.Preempt&& !gameController.GetGameEventTimer().GetTimerResultOutputWait().IsEnabled()) { return; }
         switch (GameManager.GameModeTag)
         {
             case GameManager.GameMode.RapidPress:
@@ -71,6 +77,7 @@ public class MousePlayer : CharacterController
         if(gameController.ClickCount >= gameController.GetMaxCount())
         {
             gameController.VictoryPlayer = VictoryPlayer.Mouse;
+            MagaicShotCommand();
         }
     }
 
@@ -86,6 +93,7 @@ public class MousePlayer : CharacterController
         if (gameController.ClickCount >= gameController.GetMaxCount())
         {
             gameController.VictoryPlayer = VictoryPlayer.Mouse;
+            MagaicShotCommand();
         }
     }
 
@@ -95,7 +103,7 @@ public class MousePlayer : CharacterController
         if (inputController.RandomMouseKey())
         {
             gameController.VictoryPlayer = VictoryPlayer.Mouse;
+            MagaicShotCommand();
         }
     }
-
 }

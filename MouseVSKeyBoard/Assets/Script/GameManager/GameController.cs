@@ -24,6 +24,10 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private static bool inputEnabled = false;
     public static bool IsRapidPressFlag() {  return inputEnabled; }
+
+    [SerializeField]
+    private static bool preempt = false;
+    public static bool Preempt {  get { return preempt; } set { preempt = value; } }
     [SerializeField]
     private int maxCount = 10;
     public int GetMaxCount() {  return maxCount; }
@@ -44,6 +48,7 @@ public class GameController : MonoBehaviour
     private int mouseVictoryCount = 0;
     public int GetMouseVictoryCount() { return mouseVictoryCount; }
     private GameEventTimer gameEventTimer = null;
+    public GameEventTimer GetGameEventTimer() { return gameEventTimer; }
 
     private bool poaseFlag = true;
     private void Start()
@@ -77,11 +82,12 @@ public class GameController : MonoBehaviour
         clickCount = 0;
 
         inputEnabled = false;
+        preempt = false;
         
         mousePlayer.InitializePosition();
         keyBoardPlayer.InitializePosition();
 
-        uIController.SetResultUI(new Vector2(0,2000));
+        uIController.SetResultUI(victoryPlayer,new Vector2(0,2000));
 
         switch (GameManager.GameModeTag)
         {
@@ -138,6 +144,7 @@ public class GameController : MonoBehaviour
                 break;
         }
         if (gameEventTimer.GetTimerResetGameIdle().IsEnabled()) { return; }
+        if(gameEventTimer.GetTimerResultOutputWait().IsEnabled()) { return; }
         ResultText();
         
     }
@@ -179,16 +186,17 @@ public class GameController : MonoBehaviour
         switch (victoryPlayer)
         {
             case VictoryPlayer.KeyBoard:
-                uIController.SetResultUI(new Vector2(-550, 200));
+                uIController.SetResultUI(victoryPlayer,new Vector2(-550, 200));
                 uIController.ResultUI(victoryPlayer);
                 keyBoardVictoryCount++;
                 break;
             case VictoryPlayer.Mouse:
-                uIController.SetResultUI(new Vector2(550, 200));
+                uIController.SetResultUI(victoryPlayer,new Vector2(550, 200));
                 uIController.ResultUI(victoryPlayer);
                 mouseVictoryCount++;
                 break;
             case VictoryPlayer.Draw:
+                uIController.SetResultUI(victoryPlayer,new Vector2(0, 200));
                 uIController.ResultUI(victoryPlayer);
                 break;
         }
@@ -207,14 +215,11 @@ public class GameController : MonoBehaviour
         switch (GameManager.GameModeTag)
         {
             case GameManager.GameMode.RapidPress:
-                if (keyBoardPlayer.GetInputController().RandomGetKey() && Input.GetMouseButtonDown(0))
-                {
-                    victoryPlayer = VictoryPlayer.Draw;
-                }
-                break;
             case GameManager.GameMode.BurstPush:
-                if(victoryPlayer == VictoryPlayer.Null) { return; }
-                if(keyCount == clickCount)
+            case GameManager.GameMode.MutualPush:
+                bool keyBoardFire = keyBoardPlayer.GetMagicShot().Fire;
+                bool mouseFire = mousePlayer.GetMagicShot().Fire;
+                if(keyBoardFire&&mouseFire)
                 {
                     victoryPlayer = VictoryPlayer.Draw;
                 }
