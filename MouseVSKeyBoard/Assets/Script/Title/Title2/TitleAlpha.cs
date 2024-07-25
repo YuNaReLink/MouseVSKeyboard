@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class TitleAlpha : MonoBehaviour
 {
     [SerializeField]
-    private float increaseAlpha = 0.005f;
+    private float increaseAlpha = 0.003f;
     
 
     [SerializeField]
