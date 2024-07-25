@@ -15,8 +15,6 @@ public class TitleAlpha : MonoBehaviour
     [SerializeField]
     private float maxColor = 1;
 
-    [SerializeField]
-    private bool startOn = false;
 
     private void Start()
     {
@@ -29,10 +27,6 @@ public class TitleAlpha : MonoBehaviour
         {
             alpha += increaseAlpha * Time.deltaTime;
             this.GetComponent<SpriteRenderer>().color += new Color(maxColor, maxColor, maxColor, alpha);
-        }
-        else
-        {
-            startOn = true;
         }
     }
 }
