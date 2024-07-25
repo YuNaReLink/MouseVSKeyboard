@@ -9,6 +9,9 @@ public class PushStart : MonoBehaviour
     private Text startText = null;
 
     [SerializeField]
+    private PlaySE SE;
+
+    [SerializeField]
     private float overTime = 3;
 
     private float ResetTime = 0.8f;
@@ -17,12 +20,13 @@ public class PushStart : MonoBehaviour
 
     private bool active = false;
 
-    private TitleAlpha titleAlpha;
-
     private bool activeTimer = false;
 
-    [SerializeField]
-    private bool Stop = false;
+    private float sceneTime = 0;
+
+    private float nextSceneTime = 0.3f;
+
+    private bool nextSceneGo = false;
 
     private void Awake()
     {
@@ -30,13 +34,12 @@ public class PushStart : MonoBehaviour
 
         startText = GetComponent<Text>();
 
-        titleAlpha = GetComponent<TitleAlpha>();
+        SE = GetComponent<PlaySE>();
 
         startText.enabled = active;
     }
     private void Update()
     {
-        TitleTimerStop();
         ActiveTimer();
         if (activeTimer)
         {
@@ -45,42 +48,33 @@ public class PushStart : MonoBehaviour
         }
     }
     private void ActiveTimer( )   {
-        if (!Stop)
+        currentTime += Time.deltaTime;
+        startText.enabled = active;
+        if (overTime < currentTime)
         {
-            currentTime += Time.deltaTime;
-            startText.enabled = active;
-            if (overTime < currentTime)
-            {
-                active = !active;
-                currentTime = 0;
-                activeTimer = true;
-            }
+            active = !active;   
+            currentTime = 0;
+            activeTimer = true;
         }
+        
         
     }
     private void PushToStart()
     {
-        if(Input.GetKeyUp(KeyCode.Escape)|| Input.GetKeyDown(KeyCode.Escape)|| Input.GetKey(KeyCode.Escape))
+        if (Input.anyKey)
         {
+            SE.GoSE();
+            nextSceneGo = true;
         }
-        else if (Input.anyKey && !Stop)
+        if (nextSceneGo)
         {
-            nextScene.GoScene();
-        }
-    }
-    public void TitleTimerStop()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Stop = !Stop;
-            if (Stop)
+            sceneTime += Time.deltaTime;
+            if(nextSceneTime < sceneTime)
             {
-                startText.enabled = false;
-            }
-            else if (!Stop)
-            {
-                startText.enabled = true;
+                nextScene.GoScene();
             }
         }
+
     }
+
 }
