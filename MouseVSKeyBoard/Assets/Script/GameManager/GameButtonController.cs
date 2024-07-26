@@ -8,7 +8,11 @@ public class GameButtonController : MonoBehaviour
     [SerializeField]
     private float time;
     [SerializeField]
-    private float overTime;
+    private float overTime = 1f;
+    [SerializeField]
+    private bool sceneChange = false;
+    [SerializeField]
+    private string sceneName = "";
     public enum ButtonTag
     {
         Null = -1,
@@ -25,10 +29,29 @@ public class GameButtonController : MonoBehaviour
         buttonArray[(int)ButtonTag.Return].SetActive(enabled);
     }
 
-
-    public void ChangeScene(string sceneName)
+    private void Start()
     {
+        sceneChange = false;
+        time = 0;
+        overTime = 1f;
+    }
+
+    private void Update()
+    {
+        if (sceneChange)
+        {
+            time += Time.deltaTime;
+            if(time > overTime)
+            {
+                SceneManager.LoadScene(sceneName);
+            }
+        }
+    }
+
+    public void ChangeScene(string _sceneName)
+    {
+        sceneChange = true;
         Time.timeScale = 1f;
-        SceneManager.LoadScene(sceneName);
+        sceneName = _sceneName;
     }
 }
