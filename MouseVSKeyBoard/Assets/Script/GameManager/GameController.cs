@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static GameManager;
 
-//ŸÒ‚ÌŒ‹‰Ê‚ğo‚·‚½‚ß‚ÌenumƒNƒ‰ƒX
+//å‹è€…ã®çµæœã‚’å‡ºã™ãŸã‚ã®enumã‚¯ãƒ©ã‚¹
 public enum VictoryPlayer
 {
     Null = -1,
@@ -18,10 +18,10 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameUIController        uIController = null;
     /// <summary>
-    /// ‘‰Ÿ‚µ‚ÌŠÔŠu‚ğƒ‰ƒ“ƒ_ƒ€‚Å¶¬‚·‚é•Ï”
-    /// 0:ƒ‰ƒ“ƒ_ƒ€‚ÌÅ‘å’l(‚±‚Ì”’lˆÈ‰º‚È‚ç‘‰Ÿ‚µŠJn)
-    /// 1:ƒ‰ƒ“ƒ_ƒ€‚ÌÅ‘å’l‚ğ‘ã“ü‚·‚é“ü‚ê•¨
-    /// 2:ƒ‰ƒ“ƒ_ƒ€‚ÌÅ‘å’l‚æ‚è‚à¬‚³‚¢‚©Œv‘ª‚·‚é•Ï”
+    /// æ—©æŠ¼ã—ã®é–“éš”ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã§ç”Ÿæˆã™ã‚‹å¤‰æ•°
+    /// 0:ãƒ©ãƒ³ãƒ€ãƒ ã®æœ€å¤§å€¤(ã“ã®æ•°å€¤ä»¥ä¸‹ãªã‚‰æ—©æŠ¼ã—é–‹å§‹)
+    /// 1:ãƒ©ãƒ³ãƒ€ãƒ ã®æœ€å¤§å€¤ã‚’ä»£å…¥ã™ã‚‹å…¥ã‚Œç‰©
+    /// 2:ãƒ©ãƒ³ãƒ€ãƒ ã®æœ€å¤§å€¤ã‚ˆã‚Šã‚‚å°ã•ã„ã‹è¨ˆæ¸¬ã™ã‚‹å¤‰æ•°
     /// </summary>
     [SerializeField]
     private const int               measurementMaxValue = 1;
@@ -30,22 +30,22 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private int                     measurementNumber = 0;
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚ª“ü—Í‚Å‚«‚é‚©Œˆ‚ß‚éƒtƒ‰ƒO
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒå…¥åŠ›ã§ãã‚‹ã‹æ±ºã‚ã‚‹ãƒ•ãƒ©ã‚°
     /// </summary>
     [SerializeField]
     private static bool             inputEnabled = false;
     public static bool              IsInputEnabledFlag() {  return inputEnabled; }
     /// <summary>
-    /// æ‚É–‚–@‚ğ•ú‚Á‚½ŸÒ‚©”»’è‚·‚é‚½‚ß‚Ìƒtƒ‰ƒO
+    /// å…ˆã«é­”æ³•ã‚’æ”¾ã£ãŸå‹è€…ã‹åˆ¤å®šã™ã‚‹ãŸã‚ã®ãƒ•ãƒ©ã‚°
     /// </summary>
     [SerializeField]
     private static bool             preempt = false;
     public static bool              Preempt {  get { return preempt; } set { preempt = value; } }
     /// <summary>
-    /// ˜A‘ÅEŒğŒİ‰Ÿ‚µ‚ÌÅ‘åƒNƒŠƒbƒNƒJƒEƒ“ƒg‚ğŒˆ‚ß‚é•Ï”
-    /// maxCount:ƒNƒŠƒbƒN‚ÌÅ‘å’l(ƒ‰ƒ“ƒ_ƒ€¶¬¦‰Šú’l‚Í10)
-    /// keyCount:ƒL[ƒ{[ƒh‚ÌƒNƒŠƒbƒNƒJƒEƒ“ƒg‚ğŒv‘ª‚·‚é•Ï”
-    /// clickCount:ƒ}ƒEƒX‚ÌƒNƒŠƒbƒNƒJƒEƒ“ƒg‚ğŒv‘ª‚·‚é•Ï”
+    /// é€£æ‰“ãƒ»äº¤äº’æŠ¼ã—ã®æœ€å¤§ã‚¯ãƒªãƒƒã‚¯ã‚«ã‚¦ãƒ³ãƒˆã‚’æ±ºã‚ã‚‹å¤‰æ•°
+    /// maxCount:ã‚¯ãƒªãƒƒã‚¯ã®æœ€å¤§å€¤(ãƒ©ãƒ³ãƒ€ãƒ ç”Ÿæˆâ€»åˆæœŸå€¤ã¯10)
+    /// keyCount:ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®ã‚¯ãƒªãƒƒã‚¯ã‚«ã‚¦ãƒ³ãƒˆã‚’è¨ˆæ¸¬ã™ã‚‹å¤‰æ•°
+    /// clickCount:ãƒã‚¦ã‚¹ã®ã‚¯ãƒªãƒƒã‚¯ã‚«ã‚¦ãƒ³ãƒˆã‚’è¨ˆæ¸¬ã™ã‚‹å¤‰æ•°
     /// </summary>
     [SerializeField]
     private int                     maxCount = 10;
@@ -57,7 +57,7 @@ public class GameController : MonoBehaviour
     private int                     clickCount = 0;
     public int                      ClickCount { get {return clickCount; } set { clickCount = value; } }
     /// <summary>
-    /// ƒL[ƒ{[ƒh‚Æƒ}ƒEƒX‚Å‘€ì‚·‚éƒvƒŒƒCƒ„[‚ÌƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+    /// ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã¨ãƒã‚¦ã‚¹ã§æ“ä½œã™ã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
     /// </summary>
     [SerializeField]
     private KeyBoardPlayer          keyBoardPlayer = null;
@@ -68,15 +68,15 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private AimClick                aimClick = null;
     /// <summary>
-    /// ŸÒ‚ğ”»’è‚·‚é‚½‚ß‚Ìenum‚ÌƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+    /// å‹è€…ã‚’åˆ¤å®šã™ã‚‹ãŸã‚ã®enumã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
     /// </summary>
     private VictoryPlayer           victoryPlayer = VictoryPlayer.Null;
     public VictoryPlayer            VictoryPlayer { get { return victoryPlayer; } set { victoryPlayer = value; } }
     /// <summary>
-    /// ƒL[ƒ{[ƒh‚Æƒ}ƒEƒX‚ÌŸ—˜‰ñ”‚ğŒv‘ª‚·‚é•Ï”ŠÖ˜A
-    /// maxVictoryCount:Ÿ—˜‚ÌÅ‘å‰ñ”
-    /// keyBoardVictoryCount:ƒL[ƒ{[ƒh‚ÌŸ—˜Œv‘ª‰ñ”•Ï”
-    /// mouseVictoryCount:ƒ}ƒEƒX‚ÌŸ—˜Œv‘ª‰ñ”•Ï”
+    /// ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã¨ãƒã‚¦ã‚¹ã®å‹åˆ©å›æ•°ã‚’è¨ˆæ¸¬ã™ã‚‹å¤‰æ•°é–¢é€£
+    /// maxVictoryCount:å‹åˆ©ã®æœ€å¤§å›æ•°
+    /// keyBoardVictoryCount:ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®å‹åˆ©è¨ˆæ¸¬å›æ•°å¤‰æ•°
+    /// mouseVictoryCount:ãƒã‚¦ã‚¹ã®å‹åˆ©è¨ˆæ¸¬å›æ•°å¤‰æ•°
     /// </summary>
     [SerializeField]
     private const int               maxVictoryCount = 3;
@@ -85,31 +85,32 @@ public class GameController : MonoBehaviour
     private int                     mouseVictoryCount = 0;
     public int                      GetMouseVictoryCount() { return mouseVictoryCount; }
     /// <summary>
-    /// ƒQ[ƒ€ƒRƒ“ƒgƒ[ƒ‰[‚Åg‚¤ƒ^ƒCƒ}[‚ğˆê®‚Ü‚Æ‚ß‚½ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX¶¬
+    /// ã‚²ãƒ¼ãƒ ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã§ä½¿ã†ã‚¿ã‚¤ãƒãƒ¼ã‚’ä¸€å¼ã¾ã¨ã‚ãŸã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
     /// </summary>
     private GameEventTimer          gameEventTimer = null;
     public GameEventTimer           GetGameEventTimer() { return gameEventTimer; }
 
+
     /// <summary>
-    /// ƒQ[ƒ€ŠJnAƒQ[ƒ€‚Ìˆ—‚ğ~‚ß‚éƒtƒ‰ƒO
+    /// ã‚²ãƒ¼ãƒ é–‹å§‹æ™‚ã€ã‚²ãƒ¼ãƒ ã®å‡¦ç†ã‚’æ­¢ã‚ã‚‹ãƒ•ãƒ©ã‚°
     /// </summary>
     private bool                    gameExplanationFlag = true;
     
     /// <summary>
-    /// ƒ|[ƒY‚ğØ‚è‘Ö‚¦‚éƒtƒ‰ƒO
+    /// ãƒãƒ¼ã‚ºã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ãƒ•ãƒ©ã‚°
     /// </summary>
     private bool poaseFlag = false;
     private void Start()
     {
-        //ƒQ[ƒ€ƒV[ƒ“ƒXƒ^[ƒg‚Ì‰Šú‰»ˆ—
+        //ã‚²ãƒ¼ãƒ ã‚·ãƒ¼ãƒ³ã‚¹ã‚¿ãƒ¼ãƒˆæ™‚ã®åˆæœŸåŒ–å‡¦ç†
         Initialize();
-        //‡ŠÔ‚ÉXV‚·‚é‰Šú‰»ˆ—
+        //è©¦åˆé–“ã«æ›´æ–°ã™ã‚‹åˆæœŸåŒ–å‡¦ç†
         InitializeGameSetting();
     }
 
     private void Initialize()
     {
-        //ƒAƒ^ƒbƒ`ˆ—
+        //ã‚¢ã‚¿ãƒƒãƒå‡¦ç†
         uIController = GameObject.FindGameObjectWithTag("UIController").GetComponent<GameUIController>();
         keyBoardPlayer = GameObject.FindGameObjectWithTag("KeyBoardPlayer").GetComponent<KeyBoardPlayer>();
         keyTyping = uIController.gameObject.GetComponentInChildren<KeyTyping>();
@@ -117,7 +118,7 @@ public class GameController : MonoBehaviour
         mousePlayer = GameObject.FindGameObjectWithTag("MousePlayer").GetComponent<MousePlayer>();
         aimClick = uIController.gameObject.GetComponentInChildren<AimClick>();
         aimClick.Initialize();
-        //ƒJƒEƒ“ƒgƒNƒ‰ƒX‚Ì¶¬‚Æ‰Šú‰»
+        //ã‚«ã‚¦ãƒ³ãƒˆã‚¯ãƒ©ã‚¹ã®ç”Ÿæˆã¨åˆæœŸåŒ–
         gameEventTimer = new GameEventTimer();
         gameEventTimer.InitializeAssignTimer();
 
@@ -125,29 +126,29 @@ public class GameController : MonoBehaviour
     }
 
     /// <summary>
-    ///‡ŠÔ‚ÉXV‚·‚é‰Šú‰»ˆ—
-    ///ˆê“xŸ”s‚ªŒˆ‚Ü‚Á‚½Œã‚ÉŒÄ‚Ño‚·ˆ—
-    ///‚à‚¤ˆê“x‡‚ğn‚ß‚é‚½‚ß‚Ì‰Šú‰»
+    ///è©¦åˆé–“ã«æ›´æ–°ã™ã‚‹åˆæœŸåŒ–å‡¦ç†
+    ///ä¸€åº¦å‹æ•—ãŒæ±ºã¾ã£ãŸå¾Œã«å‘¼ã³å‡ºã™å‡¦ç†
+    ///ã‚‚ã†ä¸€åº¦è©¦åˆã‚’å§‹ã‚ã‚‹ãŸã‚ã®åˆæœŸåŒ–
     /// </summary>
     private void InitializeGameSetting()
     {
-        //Œ»İ‚Ìó‘Ô‚ğİ’è
+        //ç¾åœ¨ã®çŠ¶æ…‹ã‚’è¨­å®š
         GameStateTag = GameState.Game;
-        //ƒQ[ƒ€ƒ‚[ƒh‚ğƒ‰ƒ“ƒ_ƒ€‚Éİ’è
+        //ã‚²ãƒ¼ãƒ ãƒ¢ãƒ¼ãƒ‰ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«è¨­å®š
         SetGameMode();
-        //ƒQ[ƒ€‚ªŠJn‚·‚é‚Ü‚Å‚Ìƒ^ƒCƒ}[‚ğİ’è
+        //ã‚²ãƒ¼ãƒ ãŒé–‹å§‹ã™ã‚‹ã¾ã§ã®ã‚¿ã‚¤ãƒãƒ¼ã‚’è¨­å®š
         gameEventTimer.GetTimerGameStartWait().StartTimer(5f);
-        //ŸÒEƒL[ƒ{[ƒhAƒ}ƒEƒX‚ÌƒNƒŠƒbƒNƒJƒEƒ“ƒg‰Šú‰»
+        //å‹è€…ãƒ»ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã€ãƒã‚¦ã‚¹ã®ã‚¯ãƒªãƒƒã‚¯ã‚«ã‚¦ãƒ³ãƒˆåˆæœŸåŒ–
         victoryPlayer = VictoryPlayer.Null;
         keyCount = 0;
         clickCount = 0;
 
         inputEnabled = false;
         preempt = false;
-        //ƒvƒŒƒCƒ„[‚Ì‰Šú‰»
+        //ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åˆæœŸåŒ–
         mousePlayer.InitializePosition();
         keyBoardPlayer.InitializePosition();
-        //ã‚Åİ’è‚µ‚½ƒ‚[ƒh‚²‚Æ‚É‰Šú‰»ˆ—
+        //ä¸Šã§è¨­å®šã—ãŸãƒ¢ãƒ¼ãƒ‰ã”ã¨ã«åˆæœŸåŒ–å‡¦ç†
         switch (GameModeTag)
         {
             case GameMode.RapidPress:
@@ -169,20 +170,20 @@ public class GameController : MonoBehaviour
                 SetTypingAndAimMouseMaxClickCount();
                 break;
         }
-        //UIƒRƒ“ƒgƒ[ƒ‰[‚Ì‰Šú‰»
+        //UIã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã®åˆæœŸåŒ–
         uIController.SetResultUI(victoryPlayer,new Vector2(0,2000));
         uIController.ChangeExplanationSprit((int)GameModeTag);
     }
     private void SetGameMode()
     {
-        //GameMode‚Ìenum‚©‚çƒ‰ƒ“ƒ_ƒ€‚É®”‚ğæ“¾
+        //GameModeã®enumã‹ã‚‰ãƒ©ãƒ³ãƒ€ãƒ ã«æ•´æ•°ã‚’å–å¾—
         int modeValue = Random.Range(0, (int)GameMode.DataEnd);
-        //‘O‰ñ‚Æ“¯‚¶ƒ‚[ƒh‚È‚çˆá‚¤ƒ‚[ƒh‚É‚È‚é‚Ü‚ÅŒJ‚è•Ô‚·
+        //å‰å›ã¨åŒã˜ãƒ¢ãƒ¼ãƒ‰ãªã‚‰é•ã†ãƒ¢ãƒ¼ãƒ‰ã«ãªã‚‹ã¾ã§ç¹°ã‚Šè¿”ã™
         if(GameModeTag == (GameMode)modeValue)
         {
             SetGameMode();
         }
-        //V‚µ‚¢ƒ‚[ƒh‚ğ‘ã“ü
+        //æ–°ã—ã„ãƒ¢ãƒ¼ãƒ‰ã‚’ä»£å…¥
         GameModeTag = (GameMode)modeValue;
     }
 
@@ -202,14 +203,14 @@ public class GameController : MonoBehaviour
         if(Time.timeScale <= 0) { return; }
         if (PoaseStop()) { return; }
         MoveUI();
-        //ƒ^ƒCƒ}[‚ÌXV
+        //ã‚¿ã‚¤ãƒãƒ¼ã®æ›´æ–°
         gameEventTimer.TimerUpdate();
         GameEventUpdate();
         
     }
 
     /// <summary>
-    /// ƒLƒƒƒ“ƒoƒX“à‚É‚ ‚éUI‚ğ“®‚©‚·ŠÖ”
+    /// ã‚­ãƒ£ãƒ³ãƒã‚¹å†…ã«ã‚ã‚‹UIã‚’å‹•ã‹ã™é–¢æ•°
     /// </summary>
     private void MoveUI()
     {
@@ -247,9 +248,9 @@ public class GameController : MonoBehaviour
 
     private void GameEventUpdate()
     {
-        //ƒQ[ƒ€ƒXƒ^[ƒg‚Éˆ—‚ğ‘Ò‚½‚¹‚éƒ^ƒCƒ}[
+        //ã‚²ãƒ¼ãƒ ã‚¹ã‚¿ãƒ¼ãƒˆæ™‚ã«å‡¦ç†ã‚’å¾…ãŸã›ã‚‹ã‚¿ã‚¤ãƒãƒ¼
         if (gameEventTimer.GetTimerGameStartWait().IsEnabled()) { return; }
-        //ƒQ[ƒ€ó‘Ô‚É‚æ‚èˆ—‚ğ•ÏX
+        //ã‚²ãƒ¼ãƒ çŠ¶æ…‹ã«ã‚ˆã‚Šå‡¦ç†ã‚’å¤‰æ›´
         switch (GameStateTag)
         {
             case GameState.Game:
@@ -283,6 +284,7 @@ public class GameController : MonoBehaviour
 
     private void ResultUpdate()
     {
+
         if (gameEventTimer.GetTimerResetGameIdle().IsEnabled()) { return; }
         if (gameEventTimer.GetTimerResultOutputWait().IsEnabled()) { return; }
         ResultText();
@@ -317,19 +319,21 @@ public class GameController : MonoBehaviour
     private void ResultText()
     {
         if(victoryPlayer == VictoryPlayer.Null) { return; }
-        //ˆø‚«•ª‚¯ˆ—
+        //å¼•ãåˆ†ã‘å‡¦ç†
         DrawResult();
-        //ÅIŸ”s”»’è
+        //æœ€çµ‚å‹æ•—åˆ¤å®š
         switch (victoryPlayer)
         {
             case VictoryPlayer.KeyBoard:
                 uIController.SetResultUI(victoryPlayer, MoveUIPositionData[(int)MoveUIPositionTag.KeyBoardPlayer]);
                 uIController.ResultUI(victoryPlayer);
+                gameSE.WinRound();
                 keyBoardVictoryCount++;
                 break;
             case VictoryPlayer.Mouse:
                 uIController.SetResultUI(victoryPlayer, MoveUIPositionData[(int)MoveUIPositionTag.MousePlayer]);
                 uIController.ResultUI(victoryPlayer);
+                gameSE.WinRound();
                 mouseVictoryCount++;
                 break;
             case VictoryPlayer.Draw:
@@ -337,9 +341,9 @@ public class GameController : MonoBehaviour
                 uIController.ResultUI(victoryPlayer);
                 break;
         }
-        //ŸÒ‚ÌUI‚ğ•\¦
+        //å‹è€…ã®UIã‚’è¡¨ç¤º
         ResultUIUpdate();
-        //Ÿ‚Ì‡‚ğŠJnEÅIŒ‹‰Ê‚Ìˆ—‚ğ‘Ò‹@‚³‚¹‚éƒ^ƒCƒ}[‚ğ‹N“®
+        //æ¬¡ã®è©¦åˆã‚’é–‹å§‹ãƒ»æœ€çµ‚çµæœã®å‡¦ç†ã‚’å¾…æ©Ÿã•ã›ã‚‹ã‚¿ã‚¤ãƒãƒ¼ã‚’èµ·å‹•
         gameEventTimer.GetTimerResetGameIdle().
             StartTimer(MaxResetGameIdleCount);
         gameEventTimer.GetTimerResetGameIdle().OnCompleted += () =>
@@ -383,6 +387,7 @@ public class GameController : MonoBehaviour
         {
             gameEventTimer.GetTimerKeyClickUICoolDown().StartTimer(MaxClickUICoolDown);
             uIController.GetKeyBoardTexture().PushChangeTexture(_key);
+            gameSE.Push();
         }
         else
         {
@@ -396,6 +401,7 @@ public class GameController : MonoBehaviour
         {
             gameEventTimer.GetTimerMouseClickUICoolDown().StartTimer(MaxClickUICoolDown);
             uIController.GetMouseTexture().PushChangeTexture((int)code);
+            gameSE.Push();
         }
         else
         {
@@ -412,10 +418,12 @@ public class GameController : MonoBehaviour
         if (keyBoardVictoryCount >= maxVictoryCount)
         {
             victoryPlayer = VictoryPlayer.KeyBoard;
+            gameSE.WinGame();
         }
         else if (mouseVictoryCount >= maxVictoryCount)
         {
             victoryPlayer = VictoryPlayer.Mouse;
+            gameSE.WinGame();
         }
         uIController.WinResultUI(victoryPlayer);
         return true;
