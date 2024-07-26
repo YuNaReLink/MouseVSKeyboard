@@ -103,6 +103,7 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private GameSceneSE gameSE;
+    public GameSceneSE GetGameSE() { return gameSE; }
     private int soundCount = 0;
     private void Start()
     {
