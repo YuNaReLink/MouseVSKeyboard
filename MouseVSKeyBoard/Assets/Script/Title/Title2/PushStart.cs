@@ -63,6 +63,11 @@ public class PushStart : MonoBehaviour
     }
     private void PushToStart()
     {
+        if (Input.GetKey(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyUp(KeyCode.Tab)) 
+        {
+            nextScene.SceneChang();         
+        }
+        
         if (Input.anyKey)
         {
             if (soundCount == 0)

@@ -18,4 +18,8 @@ public class NextScene : MonoBehaviour
     {
         SceneManager.LoadScene(nextScene);
     }
+    public void SceneChang()
+    {    
+        nextScene = 2;
+    }
 }
