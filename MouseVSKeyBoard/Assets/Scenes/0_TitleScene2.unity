@@ -187,7 +187,6 @@ MonoBehaviour:
   increaseAlpha: 0.003
   alpha: 0
   maxColor: 1
-  startOn: 0
 --- !u!212 &723497273
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -714,7 +713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundEffect: {fileID: 8300000, guid: b1d000f872c3df442a7424c8bb3a14d6, type: 3}
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 1580061331}
 --- !u!82 &1580061331
 AudioSource:
   m_ObjectHideFlags: 0

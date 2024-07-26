@@ -19,7 +19,7 @@ public class PlaySE : MonoBehaviour
         
     }
 
-    public void GoSE()
+    public void PlaySound()
     {
         audioSource.PlayOneShot(soundEffect);
     }

@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class GameButtonController : MonoBehaviour
 {
+    [SerializeField]
+    private float time;
+    [SerializeField]
+    private float overTime;
     public enum ButtonTag
     {
         Null = -1,
@@ -24,6 +28,10 @@ public class GameButtonController : MonoBehaviour
 
     public void ChangeScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        time += Time.deltaTime;
+        if (overTime < time)
+        {
+            SceneManager.LoadScene(sceneName);
+        }
     }
 }

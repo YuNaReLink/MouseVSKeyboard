@@ -51,6 +51,11 @@ public class GameController : MonoBehaviour
     public GameEventTimer GetGameEventTimer() { return gameEventTimer; }
 
     private bool poaseFlag = true;
+
+    [SerializeField]
+    private GameSceneSE gameSE = null;
+    private int soundCount = 0;
+    private int roundCount = 0;
     private void Start()
     {
         Initialize();
@@ -66,6 +71,8 @@ public class GameController : MonoBehaviour
 
         gameEventTimer = new GameEventTimer();
         gameEventTimer.InitializeAssignTimer();
+
+        gameSE = GetComponent<GameSceneSE>();
     }
 
     private void InitializeGameSetting()
@@ -152,6 +159,11 @@ public class GameController : MonoBehaviour
     private void MoveUI()
     {
         uIController.MovePoasePanel(new Vector2(0,1080));
+        if(soundCount == 0)
+        {
+            gameSE.BattleStart();
+            soundCount++;
+        }
         uIController.MoveExplanationUI(uIController.MoveUIPos);
         if(GameManager.GameStateTag == GameManager.GameState.Result)
         {
@@ -188,11 +200,13 @@ public class GameController : MonoBehaviour
             case VictoryPlayer.KeyBoard:
                 uIController.SetResultUI(victoryPlayer,new Vector2(-550, 200));
                 uIController.ResultUI(victoryPlayer);
+                gameSE.WinRound();
                 keyBoardVictoryCount++;
                 break;
             case VictoryPlayer.Mouse:
                 uIController.SetResultUI(victoryPlayer,new Vector2(550, 200));
                 uIController.ResultUI(victoryPlayer);
+                gameSE.WinRound();
                 mouseVictoryCount++;
                 break;
             case VictoryPlayer.Draw:
@@ -234,6 +248,7 @@ public class GameController : MonoBehaviour
         {
             gameEventTimer.GetTimerKeyClickUICoolDown().StartTimer(0.05f);
             uIController.GetKeyBoardTexture().PushChangeTexture(_key);
+            gameSE.Push();
         }
         else
         {
@@ -247,6 +262,7 @@ public class GameController : MonoBehaviour
         {
             gameEventTimer.GetTimerMouseClickUICoolDown().StartTimer(0.05f);
             uIController.GetMouseTexture().PushChangeTexture((int)code);
+            gameSE.Push();
         }
         else
         {
@@ -262,10 +278,12 @@ public class GameController : MonoBehaviour
         if (keyBoardVictoryCount >= 3)
         {
             victoryPlayer = VictoryPlayer.KeyBoard;
+            gameSE.WinGame();
         }
         else if (mouseVictoryCount >= 3)
         {
             victoryPlayer = VictoryPlayer.Mouse;
+            gameSE.WinGame();
         }
         uIController.WinResultUI(victoryPlayer);
         return true;

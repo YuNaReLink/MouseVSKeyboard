@@ -28,6 +28,8 @@ public class PushStart : MonoBehaviour
 
     private bool nextSceneGo = false;
 
+    private int soundCount = 0;
+
     private void Awake()
     {
         nextScene = GetComponent<NextScene>();
@@ -63,7 +65,11 @@ public class PushStart : MonoBehaviour
     {
         if (Input.anyKey)
         {
-            SE.GoSE();
+            if (soundCount == 0)
+            {
+                SE.PlaySound();
+                soundCount++;
+            }
             nextSceneGo = true;
         }
         if (nextSceneGo)
