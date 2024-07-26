@@ -731,6 +731,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 62bd759446052604fa060386704c24f9, type: 3}
   loseFlag: 0
   gameMode: -1
+  gameSoundSE: {fileID: 876151414}
 --- !u!50 &628739701
 Rigidbody2D:
   serializedVersion: 4
@@ -815,6 +816,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 064f20c13fd53ce4abac9c6ea7483bfc, type: 3}
   loseFlag: 0
   gameMode: -1
+  gameSoundSE: {fileID: 0}
 --- !u!61 &793565326
 BoxCollider2D:
   m_ObjectHideFlags: 0
