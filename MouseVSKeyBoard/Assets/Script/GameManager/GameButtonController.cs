@@ -28,10 +28,7 @@ public class GameButtonController : MonoBehaviour
 
     public void ChangeScene(string sceneName)
     {
-        time += Time.deltaTime;
-        if (overTime < time)
-        {
-            SceneManager.LoadScene(sceneName);
-        }
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(sceneName);
     }
 }

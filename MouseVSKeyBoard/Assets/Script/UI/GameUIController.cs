@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static GameManager;
 
 public class GameUIController : MonoBehaviour
 {
@@ -8,10 +9,19 @@ public class GameUIController : MonoBehaviour
     {
         Null = -1,
         Explanation,
+        Go,
         PressKey,
+        TypingKey,
         PressMouseKey,
+        AimMouseKey,
         Result,
         WinResult,
+        KeyScore,
+        MouseScore,
+        GameExplanation,
+        Poase,
+        Retry,
+        Return,
         DataEnd
     }
     [SerializeField]
@@ -63,6 +73,7 @@ public class GameUIController : MonoBehaviour
 
     [SerializeField]
     private GameButtonController gameButtonController = null;
+    public GameButtonController GetGameButtonController() { return gameButtonController; }
     private void Awake()
     {
         int count = transform.childCount;
@@ -71,7 +82,8 @@ public class GameUIController : MonoBehaviour
             uiArray.Add(transform.GetChild(i).gameObject);
         }
         winResultUIText = winResultUITransform.GetComponentInChildren<Text>();
-        winResultUITransform.anchoredPosition = new Vector2(0, 750);
+        winResultUITransform.anchoredPosition = 
+            MoveUIPositionData[(int)MoveUIPositionTag.ScreenOut];
         InitilaizeGameUISetting();
 
         baseExplanationPosition = explanationUITransform.transform.position;
@@ -88,8 +100,9 @@ public class GameUIController : MonoBehaviour
     
     public void InitilaizeGameUISetting()
     {
-        moveUIPos = new Vector2(0, 370);
-        moveFlag = true;
+        moveUIPos = 
+            MoveUIPositionData[(int)MoveUIPositionTag.ScreenIn];
+        
     }
 
     public void MovePoasePanel(Vector2 movePos)
@@ -100,12 +113,13 @@ public class GameUIController : MonoBehaviour
         if (dis <= 0.1)
         {
             poasePanelTransform.anchoredPosition = movePos;
-            
+            moveFlag = true;
         }
     }
 
     public void MoveExplanationUI(Vector2 movePos)
     {
+        if (!moveFlag) { return; }
         explanationUITransform.anchoredPosition = Vector2.Lerp(explanationUITransform.anchoredPosition,movePos,Time.deltaTime * 5f);
         Vector2 sub = explanationUITransform.anchoredPosition- movePos;
         float dis = sub.magnitude;
@@ -190,7 +204,8 @@ public class GameUIController : MonoBehaviour
                 result = "引き分け！";
                 break;
         }
-        moveUIPos = new Vector2(0, 750);
+        moveUIPos = 
+            MoveUIPositionData[(int)MoveUIPositionTag.ScreenOut];
         keyBoardTexture.ChangeTexture(0);
         mouseTexture.ChangeTexture(0);
     }
@@ -229,6 +244,11 @@ public class GameUIController : MonoBehaviour
             result = "マウスの勝利だ!";
         }
         winResultUIText.text = result;
+    }
+
+    public void ActiveUIObject(int _num,bool _enabled)
+    {
+        uiArray[_num].SetActive(_enabled);
     }
 
     public void ChangeExplanationSprit(int _num)

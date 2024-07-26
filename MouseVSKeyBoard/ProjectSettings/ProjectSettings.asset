@@ -14,7 +14,7 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: DefaultCompany
   productName: MouseVSKeyBoard
-  defaultCursor: {fileID: 2800000, guid: 426858f261ac3be42895e64e62555cf9, type: 3}
+  defaultCursor: {fileID: 2800000, guid: ec1cdcd0bb0f38d4ca36b83d27daec56, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1

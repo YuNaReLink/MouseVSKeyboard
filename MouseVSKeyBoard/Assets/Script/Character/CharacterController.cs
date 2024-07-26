@@ -104,5 +104,6 @@ public class CharacterController : MonoBehaviour
         Rigidbody2D rb2D = collision.GetComponent<Rigidbody2D>();
         rigidbody2D.AddForce(new Vector2(rb2D.velocity.x * impactX,impactY));
         loseFlag = true;
+        HitStopManager.instance.StartHitStop(0.5f);
     }
 }
