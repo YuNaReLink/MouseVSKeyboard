@@ -100,12 +100,18 @@ public class GameController : MonoBehaviour
     /// ポーズを切り替えるフラグ
     /// </summary>
     private bool poaseFlag = false;
+
+    [SerializeField]
+    private GameSceneSE gameSE;
+    private int soundCount = 0;
     private void Start()
     {
         //ゲームシーンスタート時の初期化処理
         Initialize();
         //試合間に更新する初期化処理
         InitializeGameSetting();
+
+        gameSE = GetComponent<GameSceneSE>();
     }
 
     private void Initialize()
@@ -193,6 +199,11 @@ public class GameController : MonoBehaviour
         if (InputController.AllPushKey() || InputController.AllPushMouseKey())
         {
             gameExplanationFlag = false;
+            if (soundCount == 0)
+            {
+                gameSE.BattleStart();
+                soundCount++;
+            }
         }
         return true;
     }
@@ -224,6 +235,8 @@ public class GameController : MonoBehaviour
 
     private void PoaseEventUpdate()
     {
+
+
         if (inputEnabled) { return; }
         if(GameStateTag == GameState.Result) { return; }
         if (InputController.IsPoaseKey())
