@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class GameManager
@@ -59,7 +56,7 @@ public class GameManager
     {
         new Vector2(0,750),
         new Vector2(0,370),
-        new Vector2(0,1080),
+        new Vector2(0,1100),
         new Vector2(0,0),
         new Vector2(-550,200),
         new Vector2(550,200),
